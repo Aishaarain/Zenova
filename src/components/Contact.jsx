@@ -7,7 +7,7 @@ import CTAButton from "./ui/CTAButton";
 // Replace with your real inbox. To wire this up to a real backend, swap the
 // body of handleSubmit for a POST to Formspree/EmailJS/your own API route —
 // see the comment inline below.
-const CONTACT_EMAIL = "hello@compile.studio";
+const CONTACT_EMAIL = "hello.zanova.co@gmail.com";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", company: "", projectType: "Web application", budget: "Under $1,500", message: "" });
@@ -63,17 +63,11 @@ export default function Contact() {
                 copied
               </span>
             </button>
-            <a href="#" className="flex items-center gap-3 text-sm" style={{ color: "var(--text)" }}>
+            <a href="https://www.linkedin.com/in/zenovaofficial/" className="flex items-center gap-3 text-sm" style={{ color: "var(--text)" }}>
               <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ border: "1px solid var(--border-strong)" }}>
                 <Linkedin size={15} />
               </span>
-              LinkedIn — replace with your agency page
-            </a>
-            <a href="#" className="flex items-center gap-3 text-sm" style={{ color: "var(--text)" }}>
-              <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ border: "1px solid var(--border-strong)" }}>
-                <Github size={15} />
-              </span>
-              GitHub — replace with your org
+              LinkedIn 
             </a>
           </div>
 
@@ -129,10 +123,10 @@ export default function Contact() {
                 <div>
                   <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Budget</label>
                   <select className={fieldClass} style={inputStyle} value={form.budget} onChange={update("budget")}>
-                    <option>Under $1,500</option>
-                    <option>$1,500 – $4,000</option>
-                    <option>$4,000 – $10,000</option>
-                    <option>$10,000+</option>
+                    <option>Under $500</option>
+                    <option>$200 – $500</option>
+                    <option>$500 – $800</option>
+                    <option>$1000+</option>
                   </select>
                 </div>
               </div>

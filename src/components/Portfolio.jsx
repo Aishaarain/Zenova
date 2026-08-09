@@ -8,24 +8,16 @@ const PROJECTS = [
     tag: "Multi-tenant CRM",
     problem: "Freelancers lose track of their pipeline across scattered spreadsheets and DMs.",
     solution: "A workspace-based CRM with role-based access and an AI feature that drafts client proposals for you.",
-    stack: ["React", "Node.js", "MongoDB", "JWT / RBAC", "Groq LLaMA"],
     outcome: "Deployed and running multi-tenant in production.",
+    link: "https://cliently-crm-freelance.vercel.app/",
   },
   {
     name: "StudyAI",
     tag: "Retrieval-augmented Q&A",
     problem: "Students need direct, sourced answers from long documents — not another search bar.",
     solution: "A custom RAG pipeline built from primitives, no orchestration framework, so every step is inspectable and fast.",
-    stack: ["Cohere embeddings", "Supabase pgvector", "Groq", "Edge functions"],
     outcome: "Production RAG pipeline, batched to avoid memory limits at scale.",
-  },
-  {
-    name: "RiskGuard AI",
-    tag: "Cyber risk scoring for SMEs",
-    problem: "Small businesses have no simple way to see where their security risk actually sits.",
-    solution: "A scoring platform pairing a Node backend with a Python ML service, so the score updates as risk factors change.",
-    stack: ["React", "Node.js", "Flask / FastAPI", "JWT auth"],
-    outcome: "In active build — architecture and auth complete.",
+    link: "https://aipowered-study-buddy.vercel.app/",
   },
 ];
 
@@ -37,12 +29,10 @@ export default function Portfolio() {
           <div>
             <Eyebrow>Selected projects</Eyebrow>
             <h2 className="text-4xl md:text-6xl font-semibold max-w-2xl" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-              Products we've built ourselves
+             Products we've built 
             </h2>
           </div>
-          <p className="max-w-sm text-sm" style={{ color: "var(--text-muted)" }}>
-            Before we build for clients, we build for ourselves. These are live products, not mockups.
-          </p>
+         
         </Reveal>
 
         <div className="mt-16 space-y-px" style={{ background: "var(--border)" }}>
@@ -72,16 +62,34 @@ export default function Portfolio() {
                   <span style={{ color: "var(--text)" }}>Outcome — </span>{p.outcome}
                 </p>
               </div>
-              <div className="md:col-span-3 flex flex-wrap content-start gap-2">
-                {p.stack.map((s) => (
-                  <span
-                    key={s}
-                    className="text-xs px-2.5 py-1 rounded-full"
-                    style={{ border: "1px solid var(--border-strong)", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}
+              <div className="md:col-span-3 flex items-start">
+                {p.link ? (
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full transition-colors duration-200"
+                    style={{ border: "1px solid var(--border-strong)", color: "var(--text)" }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = "var(--accent)";
+                      e.currentTarget.style.color = "var(--accent)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = "var(--border-strong)";
+                      e.currentTarget.style.color = "var(--text)";
+                    }}
                   >
-                    {s}
+                    View live demo
+                    <span aria-hidden="true">→</span>
+                  </a>
+                ) : (
+                  <span
+                    className="inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-full"
+                    style={{ border: "1px solid var(--border)", color: "var(--text-faint)" }}
+                  >
+                    Coming soon
                   </span>
-                ))}
+                )}
               </div>
             </Reveal>
           ))}

@@ -28,7 +28,7 @@ const STEPS = [
   {
     n: "04",
     title: "Support",
-    desc: "Post-launch fixes and iteration, with an optional retainer if you want us on call as you keep building.",
+    desc: "We don't disappear after launch. Bug fixes, feature iteration, and ongoing SEO optimization to keep you ranking — with an optional retainer if you want us on call as you keep building.",
     terminal: ["$ tail -f logs", "> watching for errors...", "> 0 incidents this week", "> monitoring ✓"],
   },
 ];

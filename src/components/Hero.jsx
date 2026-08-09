@@ -68,9 +68,9 @@ export default function Hero() {
   const heroOpacity = Math.max(0, 1 - scrollY / 700);
 
   const stats = [
-    { num: "50+", label: "Products shipped", icon: Zap },
+    { num: "20+", label: "Products shipped", icon: Zap },
     { num: "12+", label: "AI agents in production", icon: Sparkles },
-    { num: "4-8", label: "Weeks to launch", icon: ShieldCheck },
+    { num: "4-6", label: "Weeks to launch", icon: ShieldCheck },
   ];
 
   const trusts = [
@@ -140,9 +140,9 @@ export default function Hero() {
             className="mt-4 text-[clamp(2.8rem,6vw,4.5rem)] font-black leading-[1.05] tracking-[-0.03em]"
             style={{ color: "#fff" }}
           >
-            We build apps that
+           From Idea To
             <br />
-            <span style={{ color: Y[400] }}>make startups money.</span>
+            <span style={{ color: Y[400] }}>live product. Fast.</span>
           </h1>
 
           <p

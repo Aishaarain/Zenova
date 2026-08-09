@@ -23,11 +23,11 @@ export default function ClosingCTA() {
           Ready to ship the thing you've been putting off?
         </h2>
         <p className="mt-6 text-base md:text-lg" style={{ color: "var(--text-muted)" }}>
-          Book a call and we'll scope it together — no obligation, no sales deck.
+          send a message and we'll scope it together — no obligation, no sales deck.
         </p>
         <div className="mt-10">
           <CTAButton onClick={() => scrollToId("contact")}>
-            Book a call <ArrowRight size={16} />
+            Start Your Project <ArrowRight size={16} />
           </CTAButton>
         </div>
       </div>

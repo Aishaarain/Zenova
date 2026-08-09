@@ -5,9 +5,9 @@ import Reveal from "./ui/Reveal";
 
 // Adjust these to your real rates.
 const TIERS = [
-  { name: "MVP build", price: "from $1,500", desc: "A focused web app or AI feature, scoped and shipped in a single sprint.", items: ["1–2 core features", "Auth & database included", "2 weeks average turnaround"] },
-  { name: "Full product", price: "from $4,000", desc: "A complete MERN product with AI integration, built over several sprints.", items: ["Multi-feature build", "AI/RAG integration", "Weekly demos"], highlighted: true },
-  { name: "Retainer", price: "from $800/mo", desc: "Ongoing support and iteration once your product is live.", items: ["Priority response time", "Bug fixes & small features", "Monthly check-in call"] },
+  { name: "MVP build", price: "from $300", desc: "A focused web app or AI feature, scoped and shipped in a single sprint.", items: ["1–2 core features", "Auth & database included", "2 weeks average turnaround"] },
+  { name: "Full product", price: "from $800", desc: "A complete MERN product with AI integration, built over several sprints.", items: ["Multi-feature build", "AI/RAG integration", "Weekly demos"], highlighted: true },
+  { name: "Retainer", price: "from $200/mo", desc: "Ongoing support and iteration once your product is live.", items: ["Priority response time", "Bug fixes & small features", "Monthly check-in call"] },
 ];
 
 export default function Pricing() {
