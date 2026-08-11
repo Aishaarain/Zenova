@@ -7,12 +7,11 @@ import {
   ShieldCheck,
   Globe,
 } from "lucide-react";
-import CTAButton from "./ui/CTAButton";
-import Eyebrow from "./ui/Eyebrow";
-import Reveal from "./ui/Reveal";
-import { useReveal } from "../hooks/useReveal";
-import { useScrollY } from "../hooks/useScroll";
 import { scrollToId } from "../utils/scrollTo";
+
+// ✅ Aapki local images — src/assets se import
+import heroImg from "../assets/hero.webp"; // ya .png / .jpg jo bhi format ho
+import logo from "../assets/logo.webp";
 
 const Y = {
   300: "#FDE047",
@@ -21,27 +20,35 @@ const Y = {
   600: "#CA8A04",
 };
 
+/* ─── Schema Markup ─── */
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Zenova",
+  url: "https://zenova.dev",
+  logo: "https://zenova.dev/logo.webp",
+  description: "Premium MVP development agency building revenue-generating SaaS and AI products in 4-6 weeks.",
+  sameAs: ["https://github.com/zenova", "https://linkedin.com/company/zenova"],
+};
+
 function FloatBadge({ icon: Icon, label, value, position, delay = 0 }) {
   return (
     <div
       className="absolute z-10 rounded-2xl px-4 py-3 backdrop-blur-md"
       style={{
         ...position,
-        background: "rgba(10,10,15,0.85)",
-        border: `1px solid ${Y[400]}18`,
-        boxShadow: `0 8px 32px rgba(0,0,0,0.4), 0 0 20px ${Y[400]}08`,
+        background: "rgba(10,10,18,0.9)",
+        border: `1px solid ${Y[400]}20`,
+        boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 20px ${Y[400]}10`,
         animation: `heroFloat 6s ease-in-out ${delay}s infinite`,
       }}
     >
       <div className="flex items-center gap-3">
         <div
           className="w-8 h-8 rounded-lg flex items-center justify-center"
-          style={{
-            background: `${Y[400]}12`,
-            border: `1px solid ${Y[400]}20`,
-          }}
+          style={{ background: `${Y[400]}12`, border: `1px solid ${Y[400]}25` }}
         >
-          <Icon size={14} style={{ color: Y[400] }} />
+          <Icon size={14} style={{ color: Y[400] }} aria-hidden="true" />
         </div>
         <div>
           <div
@@ -63,294 +70,331 @@ function FloatBadge({ icon: Icon, label, value, position, delay = 0 }) {
 }
 
 export default function Hero() {
-  const [ref, visible] = useReveal(0.1);
-  const scrollY = useScrollY();
-  const heroOpacity = Math.max(0, 1 - scrollY / 700);
-
   const stats = [
-    { num: "20+", label: "Products shipped", icon: Zap },
-    { num: "12+", label: "AI agents in production", icon: Sparkles },
-    { num: "4-6", label: "Weeks to launch", icon: ShieldCheck },
+    { num: "50+", label: "Startups Launched", icon: Zap },
+    { num: "$2M+", label: "Revenue Generated for Clients", icon: Sparkles },
+    { num: "4-6", label: "Weeks Average Delivery", icon: ShieldCheck },
   ];
 
-  const trusts = [
+  const techStack = [
     "React & Next.js",
-    "Node & Python",
-    "AI & LLM integrated",
-    "AWS & Vercel",
+    "Node.js & Python",
+    "OpenAI & LLM Integration",
+    "AWS & Vercel Scale",
+  ];
+
+  const services = [
+    "MVP Development",
+    "SaaS Platforms",
+    "AI Automation",
+    "Custom Web Apps",
   ];
 
   return (
-    <section
-      id="top"
-      className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 px-6 md:px-10 overflow-hidden"
-    >
-      {/* ─── BG Gradient Orbs ─── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 right-[-8%] w-[600px] h-[600px] rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${Y[400]}10, transparent 60%)`,
-          filter: "blur(40px)",
-          transform: `translateY(${scrollY * 0.2}px) scale(${1 + scrollY * 0.0003})`,
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${Y[500]}08, transparent 60%)`,
-          filter: "blur(30px)",
-          transform: `translateY(${scrollY * 0.15}px)`,
-        }}
-      />
+    <>
+      {/* Schema */}
+      <script type="application/ld+json">
+        {JSON.stringify(orgSchema)}
+      </script>
 
-      {/* ─── Grid Overlay ─── */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
+      <section
+        id="top"
+        aria-label="Zenova MVP Development Agency Hero"
+        className="relative min-h-screen flex flex-col justify-center pt-28 pb-16 px-6 md:px-10 overflow-hidden"
         style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
-          maskImage: "linear-gradient(to bottom, black 20%, transparent 70%)",
-          WebkitMaskImage: "linear-gradient(to bottom, black 20%, transparent 70%)",
-          transform: `translateY(${scrollY * 0.08}px)`,
+          background: "linear-gradient(180deg, #08080f 0%, #0c0c16 50%, #08080f 100%)",
         }}
-      />
-
-      {/* ═══════════ MAIN GRID ═══════════ */}
-      <div className="relative max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        {/* ─── LEFT: Text ─── */}
+      >
+        {/* ─── Ambient Glow Orbs ─── */}
         <div
-          ref={ref}
-          className="lg:col-span-6 xl:col-span-6"
+          aria-hidden="true"
+          className="pointer-events-none absolute top-[-10%] right-[-5%] w-[700px] h-[700px] rounded-full opacity-40"
           style={{
-            opacity: visible ? heroOpacity : 0,
-            transform: visible
-              ? `translateY(${-scrollY * 0.12}px)`
-              : "translateY(30px)",
-            transition:
-              "opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1)",
+            background: `radial-gradient(circle, ${Y[500]}12, transparent 60%)`,
+            filter: "blur(60px)",
           }}
-        >
-          <Eyebrow>Full-stack dev studio · MERN & Applied AI</Eyebrow>
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full opacity-30"
+          style={{
+            background: `radial-gradient(circle, ${Y[400]}08, transparent 60%)`,
+            filter: "blur(50px)",
+          }}
+        />
 
-          <h1
-            className="mt-4 text-[clamp(2.8rem,6vw,4.5rem)] font-black leading-[1.05] tracking-[-0.03em]"
-            style={{ color: "#fff" }}
-          >
-           From Idea To
-            <br />
-            <span style={{ color: Y[400] }}>live product. Fast.</span>
-          </h1>
+        {/* ─── Dot Grid Pattern ─── */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "radial-gradient(rgba(250,204,21,0.15) 1px, transparent 1px)",
+            backgroundSize: "40px 40px",
+            maskImage:
+              "linear-gradient(to bottom, black 30%, transparent 80%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 30%, transparent 80%)",
+          }}
+        />
 
-          <p
-            className="mt-7 max-w-lg text-[17px] leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.5)" }}
-          >
-            A tight dev studio. We ship MVPs, SaaS dashboards, and AI-powered
-            tools — fast. No fluff, no agency bloat. Just working products
-            that generate revenue.
-          </p>
-
-          {/* ─── CTAs ─── */}
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <button
-              onClick={() => scrollToId("start")}
-              className="relative group overflow-hidden rounded-xl px-7 py-3.5 text-[15px] font-black tracking-[-0.01em] transition-all duration-300"
+        {/* ═══════════ MAIN GRID ═══════════ */}
+        <div className="relative max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* ─── LEFT: Content ─── */}
+          <header className="lg:col-span-6 xl:col-span-6">
+            {/* Eyebrow */}
+            <div
+              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[12px] font-bold tracking-[0.15em] uppercase mb-6"
               style={{
-                background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
-                color: "#0a0a0f",
-                boxShadow: `0 4px 20px ${Y[400]}25`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 0 35px ${Y[400]}40, 0 8px 30px ${Y[400]}20`;
-                e.currentTarget.style.transform = "scale(1.03)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = `0 4px 20px ${Y[400]}25`;
-                e.currentTarget.style.transform = "scale(1)";
+                background: `${Y[400]}08`,
+                border: `1px solid ${Y[400]}18`,
+                color: Y[400],
               }}
             >
               <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background:
-                    "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)",
-                  backgroundSize: "200% 100%",
-                  animation: "heroShimmer 2s ease-in-out infinite",
-                }}
-              />
-              <span className="relative z-10 flex items-center gap-2">
-                Start a Project
-                <ArrowUpRight
-                  size={16}
-                  strokeWidth={2.5}
-                  className="group-hover:rotate-45 transition-transform duration-300"
-                />
-              </span>
-            </button>
-
-            <button
-              onClick={() => scrollToId("shipped")}
-              className="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-[15px] font-bold transition-all duration-300"
-              style={{
-                color: "rgba(255,255,255,0.6)",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = Y[400];
-                e.currentTarget.style.borderColor = `${Y[400]}30`;
-                e.currentTarget.style.background = `${Y[400]}08`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "rgba(255,255,255,0.6)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-              }}
-            >
-              See Our Work
-              <ArrowRight
-                size={15}
-                className="group-hover:translate-x-1 transition-transform duration-300"
-              />
-            </button>
-          </div>
-
-          {/* ─── Trust Signals ─── */}
-          <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-            {trusts.map((t) => (
-              <span
-                key={t}
-                className="flex items-center gap-2 text-[13px] font-semibold"
-                style={{ color: "rgba(255,255,255,0.4)" }}
-              >
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ background: Y[400] }}
-                />
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* ─── RIGHT: Image ─── */}
-        <div className="lg:col-span-6 xl:col-span-6 relative">
-          <div
-            className="relative"
-            style={{
-              transform: `perspective(1200px) rotateY(-4deg) rotateX(2deg) translateY(${scrollY * -0.06}px)`,
-              transition: "transform 0.15s linear",
-            }}
-          >
-            {/* Main Image Container */}
-            <div className="relative rounded-3xl overflow-hidden">
-              {/* Glow behind */}
-              <div
-                className="absolute -inset-4 rounded-3xl blur-2xl opacity-30"
+                className="w-1.5 h-1.5 rounded-full animate-pulse"
                 style={{ background: Y[400] }}
               />
+              Full-Stack MVP Agency
+            </div>
 
-              <img
-                src="https://images.unsplash.com/photo-1555069932-869ad7c3f54?w=800&q=80"
-                alt="Zenova — Shipping products that make startups money"
-                className="relative w-full h-auto rounded-3xl object-cover aspect-[4/3]"
-                style={{
-                  border: `1px solid ${Y[400]}15`,
-                  boxShadow: `0 30px 80px rgba(0,0,0,0.5), 0 0 60px ${Y[400]}08`,
+            {/* ═══ H1 ═══ */}
+            <h1
+              className="text-[clamp(2.5rem,5.5vw,4rem)] font-black leading-[1.08] tracking-[-0.03em]"
+              style={{ color: "#fff" }}
+            >
+              We Build{" "}
+              <span style={{ color: Y[400] }}>SaaS & AI Products</span>
+              <br />
+              That Actually Make
+              <br />
+              You Money
+            </h1>
+
+            {/* ─── Description ─── */}
+            <p
+              className="mt-6 max-w-lg text-[16px] md:text-[17px] leading-[1.7]"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+            >
+              Stop waiting 6 months for a broken MVP. Zenova ships{" "}
+              <strong style={{ color: "#fff" }}>revenue-ready products</strong>{" "}
+              in <strong style={{ color: "#fff" }}>4-6 weeks</strong>. From AI
+              chatbots to SaaS dashboards — we handle the full stack so you can
+              focus on growth.
+            </p>
+
+            {/* ─── Service Tags ─── */}
+            <nav aria-label="Services" className="mt-5 flex flex-wrap gap-2">
+              {services.map((s) => (
+                <span
+                  key={s}
+                  className="px-3 py-1.5 rounded-lg text-[12px] font-semibold"
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    color: "rgba(255,255,255,0.45)",
+                  }}
+                >
+                  {s}
+                </span>
+              ))}
+            </nav>
+
+            {/* ─── CTAs ─── */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#start"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("start");
                 }}
-              />
-
-              {/* Gradient overlay */}
-              <div
-                className="absolute inset-0 rounded-3xl pointer-events-none"
+                className="relative group overflow-hidden rounded-xl px-8 py-4 text-[15px] font-black tracking-[-0.01em] transition-all duration-300"
                 style={{
-                  background:
-                    "linear-gradient(180deg, transparent 40%, rgba(10,10,15,0.7) 100%), linear-gradient(135deg, rgba(10,10,15,0.4) 0%, transparent 50%)",
+                  background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
+                  color: "#0a0a0f",
+                  boxShadow: `0 4px 20px ${Y[400]}30`,
                 }}
-              />
+                aria-label="Start your project with Zenova"
+              >
+                <span
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)",
+                    backgroundSize: "200% 100%",
+                    animation: "heroShimmer 2s ease-in-out infinite",
+                  }}
+                />
+                <span className="relative z-10 flex items-center gap-2">
+                  Start Your Project
+                  <ArrowUpRight
+                    size={16}
+                    strokeWidth={2.5}
+                    className="group-hover:rotate-45 transition-transform duration-300"
+                    aria-hidden="true"
+                  />
+                </span>
+              </a>
 
-              {/* Scan line effect */}
-              <div
-                className="absolute inset-0 rounded-3xl pointer-events-none opacity-[0.03]"
+              <a
+                href="#shipped"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("shipped");
+                }}
+                className="group flex items-center gap-2.5 px-6 py-4 rounded-xl text-[15px] font-bold transition-all duration-300"
                 style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.5) 2px, rgba(255,255,255,0.5) 4px)",
+                  color: "rgba(255,255,255,0.6)",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
                 }}
-              />
+                aria-label="View portfolio"
+              >
+                See Our Work
+                <ArrowRight
+                  size={15}
+                  className="group-hover:translate-x-1 transition-transform duration-300"
+                  aria-hidden="true"
+                />
+              </a>
+            </div>
 
-              {/* Center overlay text on image */}
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="flex items-center gap-3">
+            {/* ─── Tech Trust ─── */}
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+              {techStack.map((t) => (
+                <span
+                  key={t}
+                  className="flex items-center gap-2 text-[13px] font-semibold"
+                  style={{ color: "rgba(255,255,255,0.4)" }}
+                >
+                  <span
+                    className="w-1.5 h-1.5 rounded-full"
+                    style={{ background: Y[400] }}
+                    aria-hidden="true"
+                  />
+                  {t}
+                </span>
+              ))}
+            </div>
+          </header>
+
+          {/* ─── RIGHT: Your Local Hero Image ─── */}
+          <aside
+            className="lg:col-span-6 xl:col-span-6 relative"
+            aria-label="Product showcase preview"
+          >
+            <div
+              className="relative"
+              style={{
+                transform:
+                  "perspective(1200px) rotateY(-4deg) rotateX(2deg)",
+              }}
+            >
+              <figure className="relative rounded-3xl overflow-hidden m-0">
+                {/* Glow behind */}
+                <div
+                  className="absolute -inset-4 rounded-3xl blur-2xl opacity-25"
+                  style={{ background: Y[400] }}
+                  aria-hidden="true"
+                />
+
+                {/* ✅ AAPKI LOCAL HERO IMAGE */}
+                <img
+                  src={heroImg}
+                  alt="Zenova SaaS dashboard with AI analytics, revenue tracking, and real-time data visualization built with React and Next.js"
+                  className="relative w-full h-auto rounded-3xl object-cover aspect-[4/3]"
+                  width="800"
+                  height="600"
+                  loading="eager"
+                  fetchpriority="high"
+                  style={{
+                    border: `1px solid ${Y[400]}15`,
+                    boxShadow: `0 30px 80px rgba(0,0,0,0.6), 0 0 60px ${Y[400]}08`,
+                  }}
+                />
+
+                {/* Gradient overlay */}
+                <div
+                  className="absolute inset-0 rounded-3xl pointer-events-none"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, transparent 40%, rgba(8,8,15,0.8) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+
+                {/* Live indicator */}
+                <figcaption className="absolute bottom-0 left-0 right-0 p-6 flex items-center gap-3">
                   <div
                     className="w-2.5 h-2.5 rounded-full animate-pulse"
-                    style={{ background: Y[400], boxShadow: `0 0 12px ${Y[400]}` }}
+                    style={{
+                      background: Y[400],
+                      boxShadow: `0 0 12px ${Y[400]}`,
+                    }}
+                    aria-hidden="true"
                   />
                   <span
                     className="text-[13px] font-bold tracking-wide"
                     style={{ color: Y[400] }}
                   >
-                    zenova.dev — Live
+                    zenova.dev — Production Ready
                   </span>
-                </div>
-              </div>
+                </figcaption>
+              </figure>
+
+              {/* Floating Badges */}
+              <FloatBadge
+                icon={Zap}
+                label="Build"
+                value="Passing"
+                position={{ top: "-6%", left: "-8%" }}
+                delay={0}
+              />
+              <FloatBadge
+                icon={Sparkles}
+                label="AI Layer"
+                value="LLM Integrated"
+                position={{ top: "30%", right: "-10%" }}
+                delay={1.5}
+              />
+              <FloatBadge
+                icon={ShieldCheck}
+                label="Deploy"
+                value="Live on AWS"
+                position={{ bottom: "8%", left: "-6%" }}
+                delay={3}
+              />
+              <FloatBadge
+                icon={Globe}
+                label="Uptime"
+                value="99.9% SLA"
+                position={{ bottom: "-4%", right: "8%" }}
+                delay={2}
+              />
             </div>
-
-            {/* ─── Floating Badges ─── */}
-            <FloatBadge
-              icon={Zap}
-              label="Status"
-              value="Build Passing"
-              position={{ top: "-6%", left: "-8%" }}
-              delay={0}
-            />
-            <FloatBadge
-              icon={Sparkles}
-              label="AI Layer"
-              value="RAG Ready"
-              position={{ top: "30%", right: "-10%" }}
-              delay={1.5}
-            />
-            <FloatBadge
-              icon={ShieldCheck}
-              label="Deploy"
-              value="Production"
-              position={{ bottom: "8%", left: "-6%" }}
-              delay={3}
-            />
-            <FloatBadge
-              icon={Globe}
-              label="Uptime"
-              value="99.9%"
-              position={{ bottom: "-4%", right: "8%" }}
-              delay={2}
-            />
-          </div>
+          </aside>
         </div>
-      </div>
 
-      {/* ═══════════ STATS BAR ═══════════ */}
-      <div className="relative max-w-[1400px] mx-auto w-full mt-20">
-        <div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-2xl overflow-hidden"
-          style={{
-            background: "rgba(255,255,255,0.02)",
-            border: `1px solid ${Y[400]}08`,
-            boxShadow: `0 0 40px ${Y[400]}04`,
-          }}
+        {/* ═══════════ STATS BAR ═══════════ */}
+        <footer
+          className="relative max-w-[1400px] mx-auto w-full mt-20"
+          aria-label="Company statistics"
         >
-          {stats.map(({ num, label, icon: Icon }, i) => (
-            <Reveal key={num} delay={i * 120}>
-              <div
+          <div
+            className="grid grid-cols-1 sm:grid-cols-3 gap-0 rounded-2xl overflow-hidden"
+            style={{
+              background: "rgba(255,255,255,0.02)",
+              border: `1px solid ${Y[400]}08`,
+              boxShadow: `0 0 40px ${Y[400]}04`,
+            }}
+          >
+            {stats.map(({ num, label, icon: Icon }, i) => (
+              <article
+                key={label}
                 className="flex items-center gap-5 px-8 py-7"
                 style={{
                   borderRight:
-                    i < 2
-                      ? "1px solid rgba(255,255,255,0.06)"
-                      : "none",
+                    i < 2 ? "1px solid rgba(255,255,255,0.06)" : "none",
                 }}
               >
                 <div
@@ -360,7 +404,11 @@ export default function Hero() {
                     border: `1px solid ${Y[400]}12`,
                   }}
                 >
-                  <Icon size={20} style={{ color: Y[400] }} />
+                  <Icon
+                    size={20}
+                    style={{ color: Y[400] }}
+                    aria-hidden="true"
+                  />
                 </div>
                 <div>
                   <div
@@ -376,23 +424,22 @@ export default function Hero() {
                     {label}
                   </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
+              </article>
+            ))}
+          </div>
+        </footer>
 
-      {/* ─── Keyframes ─── */}
-      <style>{`
-        @keyframes heroFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-12px); }
-        }
-        @keyframes heroShimmer {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-      `}</style>
-    </section>
+        <style>{`
+          @keyframes heroFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+          }
+          @keyframes heroShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+        `}</style>
+      </section>
+    </>
   );
 }

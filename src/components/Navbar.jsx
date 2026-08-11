@@ -8,8 +8,9 @@ import {
   Clock,
   Users,
   Play,
+  Star,
+  CreditCard,
 } from "lucide-react";
-import CTAButton from "./ui/CTAButton";
 import { scrollToId } from "../utils/scrollTo";
 import logo from "../assets/logo.webp";
 
@@ -30,7 +31,7 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const ids = ["top", "build", "shipped", "how", "team", "start"];
+      const ids = ["top", "build", "shipped", "how", "testimonials", "pricing", "team", "start"];
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el) {
@@ -58,14 +59,16 @@ export default function Navbar() {
     { label: "Build", id: "build", icon: Code2, tag: "What we develop for you" },
     { label: "Shipped", id: "shipped", icon: Rocket, tag: "Products making money now" },
     { label: "How", id: "how", icon: Clock, tag: "On time. On budget. Every time." },
+    { label: "Testimonials", id: "testimonials", icon: Star, tag: "What clients say about us" },
+    { label: "Pricing", id: "pricing", icon: CreditCard, tag: "Transparent pricing plans" },
     { label: "Team", id: "team", icon: Users, tag: "Senior engineers only" },
     { label: "Start", id: "start", icon: Play, tag: "Launch your project" },
   ];
 
   const getUnderline = (id) => {
-    if (!navRef.current) return {};
+    if (!navRef.current || !id) return { left: 0, width: 0 };
     const btn = navRef.current.querySelector(`[data-nav="${id}"]`);
-    if (!btn) return {};
+    if (!btn) return { left: 0, width: 0 };
     const navRect = navRef.current.getBoundingClientRect();
     const btnRect = btn.getBoundingClientRect();
     return {
@@ -81,13 +84,14 @@ export default function Navbar() {
   });
 
   useEffect(() => {
-    if (activeSection === "top") {
-      setUnderline((p) => ({ ...p, visible: false }));
-    } else {
-      const pos = getUnderline(activeSection);
+    const targetId = hoveredLink || (activeSection !== "top" ? activeSection : null);
+    if (targetId) {
+      const pos = getUnderline(targetId);
       setUnderline({ ...pos, visible: true });
+    } else {
+      setUnderline((p) => ({ ...p, visible: false }));
     }
-  }, [activeSection]);
+  }, [activeSection, hoveredLink]);
 
   return (
     <>
@@ -108,7 +112,7 @@ export default function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto px-6 lg:px-14">
           <div className="flex items-center justify-between h-[80px]">
-            {/* ─── LOGO ─── */}
+            {/* ─── LOGO (Wapas Pehle Jaisa) ─── */}
             <button
               onClick={() => scrollToId("top")}
               className="flex items-center gap-3 group"
@@ -143,6 +147,7 @@ export default function Navbar() {
             <nav
               ref={navRef}
               className="hidden lg:flex items-center gap-1 relative"
+              onMouseLeave={() => setHoveredLink(null)}
             >
               {links.map(({ label, id }) => {
                 const isActive = activeSection === id;
@@ -153,16 +158,17 @@ export default function Navbar() {
                     data-nav={id}
                     onClick={() => scrollToId(id)}
                     onMouseEnter={() => setHoveredLink(id)}
-                    onMouseLeave={() => setHoveredLink(null)}
-                    className="relative px-5 py-2.5 rounded-lg text-[15px] font-bold tracking-[-0.02em] transition-all duration-300"
+                    className="relative px-4 py-2.5 rounded-lg text-[15px] font-bold tracking-[-0.02em] transition-all duration-300"
                     style={{
                       color: isActive
                         ? Y[400]
                         : isHover
-                        ? "#fff"
-                        : "rgba(255,255,255,0.55)",
+                        ? "#ffffff"
+                        : "rgba(255,255,255,0.45)",
                       textShadow: isActive
                         ? `0 0 20px ${Y[400]}50`
+                        : isHover
+                        ? "0 0 20px rgba(255,255,255,0.15)"
                         : "none",
                     }}
                   >
@@ -171,82 +177,24 @@ export default function Navbar() {
                 );
               })}
 
-              {/* Active underline */}
+              {/* Active / Hover underline */}
               <span
-                className="absolute bottom-0 h-[3px] rounded-full transition-all duration-500 ease-out"
+                className="absolute bottom-0 h-[3px] rounded-full transition-all duration-400 ease-out"
                 style={{
                   left: underline.left,
                   width: underline.width,
-                  background: `linear-gradient(90deg, ${Y[400]}, ${Y[500]})`,
-                  boxShadow: `0 0 16px ${Y[400]}60, 0 2px 8px ${Y[400]}30`,
+                  background: hoveredLink
+                    ? `linear-gradient(90deg, ${Y[300]}, ${Y[400]})`
+                    : `linear-gradient(90deg, ${Y[400]}, ${Y[500]})`,
+                  boxShadow: hoveredLink
+                    ? `0 0 12px ${Y[300]}50, 0 2px 6px ${Y[400]}30`
+                    : `0 0 16px ${Y[400]}60, 0 2px 8px ${Y[400]}30`,
                   opacity: underline.visible ? 1 : 0,
+                  transform: underline.visible ? "scaleY(1)" : "scaleY(0)",
+                  transformOrigin: "bottom",
                 }}
               />
             </nav>
-
-            {/* ─── RIGHT SIDE ─── */}
-            <div className="hidden lg:flex items-center gap-4">
-              <button
-                onClick={() => scrollToId("shipped")}
-                className="text-[14px] font-bold tracking-wide uppercase transition-all duration-300 group flex items-center gap-2 px-4 py-2.5 rounded-lg"
-                style={{
-                  color: "rgba(255,255,255,0.6)",
-                  background: "rgba(255,255,255,0.04)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = Y[400];
-                  e.currentTarget.style.borderColor = `${Y[400]}30`;
-                  e.currentTarget.style.background = `${Y[400]}08`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "rgba(255,255,255,0.6)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
-                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                }}
-              >
-                Our Work
-                <span className="inline-block transition-transform duration-300 group-hover:translate-y-[-2px] group-hover:translate-x-[2px]">
-                  ↗
-                </span>
-              </button>
-
-              <button
-                onClick={() => scrollToId("start")}
-                className="relative group overflow-hidden rounded-xl px-7 py-3 text-[15px] font-black tracking-[-0.02em] transition-all duration-300"
-                style={{
-                  background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
-                  color: "#0a0a0f",
-                  boxShadow: `0 4px 15px ${Y[400]}20`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 30px ${Y[400]}40, 0 8px 30px ${Y[400]}25`;
-                  e.currentTarget.style.transform = "scale(1.04)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = `0 4px 15px ${Y[400]}20`;
-                  e.currentTarget.style.transform = "scale(1)";
-                }}
-              >
-                <span
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background:
-                      "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)",
-                    backgroundSize: "200% 100%",
-                    animation: "navShimmer 1.8s ease-in-out infinite",
-                  }}
-                />
-                <span className="relative z-10 flex items-center gap-2">
-                  Start a Project
-                  <ArrowUpRight
-                    size={16}
-                    strokeWidth={2.5}
-                    className="group-hover:rotate-45 transition-transform duration-300"
-                  />
-                </span>
-              </button>
-            </div>
 
             {/* ─── MOBILE TOGGLE ─── */}
             <button
@@ -417,91 +365,30 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Bottom CTAs */}
+          {/* Footer */}
           <div
-            className={`mt-14 transition-all duration-700 ${
+            className={`mt-14 pt-6 flex items-center justify-between transition-all duration-700 ${
               open
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
             }`}
-            style={{ transitionDelay: open ? "600ms" : "0ms" }}
+            style={{ 
+              transitionDelay: open ? "600ms" : "0ms",
+              borderTop: `1px solid ${Y[400]}10` 
+            }}
           >
-            {/* Primary CTA */}
-            <button
-              onClick={() => {
-                setOpen(false);
-                setTimeout(() => scrollToId("start"), 150);
-              }}
-              className="w-full rounded-2xl py-5 text-center text-[17px] font-black tracking-[-0.02em] relative group overflow-hidden"
-              style={{
-                background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
-                color: "#0a0a0f",
-                boxShadow: `0 8px 30px ${Y[400]}25`,
-              }}
+            <span
+              className="text-[13px] font-black tracking-[0.2em] uppercase"
+              style={{ color: Y[400], opacity: 0.7 }}
             >
-              <span
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                style={{
-                  background:
-                    "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%)",
-                  backgroundSize: "200% 100%",
-                  animation: "navShimmer 1.8s ease-in-out infinite",
-                }}
-              />
-              <span className="relative z-10 flex items-center justify-center gap-2.5">
-                Start a Project
-                <ArrowUpRight
-                  size={18}
-                  strokeWidth={2.5}
-                  className="group-hover:rotate-45 transition-transform duration-300"
-                />
-              </span>
-            </button>
-
-            {/* Secondary CTA */}
-            <button
-              onClick={() => {
-                setOpen(false);
-                setTimeout(() => scrollToId("shipped"), 150);
-              }}
-              className="w-full mt-4 py-4 rounded-2xl text-center text-[15px] font-bold transition-all duration-300"
-              style={{
-                color: "rgba(255,255,255,0.55)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "rgba(255,255,255,0.03)",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = Y[400];
-                e.currentTarget.style.borderColor = `${Y[400]}25`;
-                e.currentTarget.style.background = `${Y[400]}08`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = "rgba(255,255,255,0.55)";
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-              }}
+              Zenova
+            </span>
+            <span
+              className="text-[12px] font-mono font-medium"
+              style={{ color: "rgba(255,255,255,0.2)" }}
             >
-              See Our Work →
-            </button>
-
-            {/* Footer */}
-            <div
-              className="mt-10 pt-6 flex items-center justify-between"
-              style={{ borderTop: `1px solid ${Y[400]}10` }}
-            >
-              <span
-                className="text-[13px] font-black tracking-[0.2em] uppercase"
-                style={{ color: Y[400], opacity: 0.7 }}
-              >
-                Zenova
-              </span>
-              <span
-                className="text-[12px] font-mono font-medium"
-                style={{ color: "rgba(255,255,255,0.2)" }}
-              >
-                Dev Agency
-              </span>
-            </div>
+              Dev Agency
+            </span>
           </div>
         </div>
       </div>
