@@ -41,7 +41,7 @@ export default function Contact() {
   const fieldClass = "w-full rounded-lg px-4 py-3 text-sm outline-none transition-colors duration-200 focus:border-[var(--accent)] placeholder:text-[var(--text-faint)]";
 
   return (
-    <section id="contact" className="px-6 md:px-10 py-28 md:py-36">
+    <section id="start" className="px-6 md:px-10 py-28 md:py-36">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
         <Reveal className="md:col-span-5">
           <Eyebrow>Get in touch</Eyebrow>

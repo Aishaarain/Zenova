@@ -56,12 +56,12 @@ export default function Navbar() {
   }, [open]);
 
   const links = [
-    { label: "Build", id: "build", icon: Code2, tag: "What we develop for you" },
-    { label: "Shipped", id: "shipped", icon: Rocket, tag: "Products making money now" },
-    { label: "How", id: "how", icon: Clock, tag: "On time. On budget. Every time." },
+    { label: "How", id: "How", icon: Clock, tag: "On time. On budget. Every time." },
+    { label: "Build", id: "Build", icon: Code2, tag: "What we develop for you" },
+    { label: "Process", id: "process", icon: Rocket, tag: "Products making money now" },
+{ label: "Team", id: "team", icon: Users, tag: "Senior engineers only" },
+ { label: "Pricing", id: "pricing", icon: CreditCard, tag: "Transparent pricing plans" },
     { label: "Testimonials", id: "testimonials", icon: Star, tag: "What clients say about us" },
-    { label: "Pricing", id: "pricing", icon: CreditCard, tag: "Transparent pricing plans" },
-    { label: "Team", id: "team", icon: Users, tag: "Senior engineers only" },
     { label: "Start", id: "start", icon: Play, tag: "Launch your project" },
   ];
 
@@ -234,6 +234,7 @@ export default function Navbar() {
       </header>
 
       {/* ═══════════ FULLSCREEN MOBILE ═══════════ */}
+      {/* ═══════════ FULLSCREEN MOBILE ═══════════ */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
           open
@@ -252,10 +253,10 @@ export default function Navbar() {
         />
 
         {/* Content */}
-        <div className="absolute inset-0 flex flex-col justify-center px-8 py-12">
+        <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8 py-10 sm:py-12 overflow-y-auto">
           {/* Heading */}
           <div
-            className={`mb-10 transition-all duration-700 ${
+            className={`mb-6 sm:mb-10 transition-all duration-700 ${
               open
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-4"
@@ -263,7 +264,7 @@ export default function Navbar() {
             style={{ transitionDelay: open ? "80ms" : "0ms" }}
           >
             <span
-              className="text-[13px] font-bold tracking-[0.25em] uppercase"
+              className="text-[11px] sm:text-[13px] font-bold tracking-[0.25em] uppercase"
               style={{ color: Y[400] }}
             >
               Navigation
@@ -271,7 +272,7 @@ export default function Navbar() {
           </div>
 
           {/* Links */}
-          <div className="space-y-1">
+          <div className="space-y-0.5 sm:space-y-1">
             {links.map(({ label, id, tag, icon: Icon }, i) => {
               const isActive = activeSection === id;
               return (
@@ -291,7 +292,7 @@ export default function Navbar() {
                   }}
                 >
                   <div
-                    className="flex items-center gap-5 px-3 py-5 rounded-2xl transition-all duration-300"
+                    className="flex items-center gap-3 sm:gap-5 px-2 sm:px-3 py-3.5 sm:py-5 rounded-2xl transition-all duration-300"
                     style={{
                       background: isActive ? `${Y[400]}0A` : "transparent",
                       borderLeft: isActive
@@ -301,7 +302,7 @@ export default function Navbar() {
                   >
                     {/* Number */}
                     <span
-                      className="text-[14px] font-mono font-bold w-8 shrink-0"
+                      className="text-[12px] sm:text-[14px] font-mono font-bold w-6 sm:w-8 shrink-0"
                       style={{
                         color: isActive
                           ? Y[400]
@@ -312,9 +313,9 @@ export default function Navbar() {
                     </span>
 
                     {/* Label + Tag */}
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <div
-                        className="text-[32px] font-black tracking-[-0.04em] leading-none transition-colors duration-300"
+                        className="text-[22px] sm:text-[28px] md:text-[32px] font-black tracking-[-0.03em] leading-none transition-colors duration-300 truncate"
                         style={{
                           color: isActive ? Y[400] : "#fff",
                           textShadow: isActive
@@ -325,7 +326,7 @@ export default function Navbar() {
                         {label}
                       </div>
                       <div
-                        className="text-[13px] font-semibold tracking-wide mt-1.5 transition-colors duration-300"
+                        className="text-[11px] sm:text-[13px] font-semibold tracking-wide mt-1 sm:mt-1.5 transition-colors duration-300 truncate"
                         style={{
                           color: isActive
                             ? Y[300]
@@ -338,7 +339,7 @@ export default function Navbar() {
 
                     {/* Arrow icon */}
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
+                      className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300"
                       style={{
                         background: isActive
                           ? `${Y[400]}15`
@@ -349,9 +350,9 @@ export default function Navbar() {
                       }}
                     >
                       <ArrowUpRight
-                        size={18}
+                        size={16}
                         strokeWidth={2.5}
-                        className="transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        className="transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 sm:w-[18px] sm:h-[18px]"
                         style={{
                           color: isActive
                             ? Y[400]
@@ -366,8 +367,8 @@ export default function Navbar() {
           </div>
 
           {/* Footer */}
-          <div
-            className={`mt-14 pt-6 flex items-center justify-between transition-all duration-700 ${
+          {/* <div
+            className={`mt-8 sm:mt-14 pt-5 sm:pt-6 flex items-center justify-between transition-all duration-700 ${
               open
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 translate-y-6"
@@ -378,18 +379,18 @@ export default function Navbar() {
             }}
           >
             <span
-              className="text-[13px] font-black tracking-[0.2em] uppercase"
+              className="text-[11px] sm:text-[13px] font-black tracking-[0.2em] uppercase"
               style={{ color: Y[400], opacity: 0.7 }}
             >
               Zenova
             </span>
             <span
-              className="text-[12px] font-mono font-medium"
+              className="text-[11px] sm:text-[12px] font-mono font-medium"
               style={{ color: "rgba(255,255,255,0.2)" }}
             >
               Dev Agency
             </span>
-          </div>
+          </div> */}
         </div>
       </div>
 

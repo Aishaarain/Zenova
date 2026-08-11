@@ -2,62 +2,68 @@ import React from "react";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 
-// Edit these — swap in your real numbers/points once you have them.
-const STATS = [
-  { value: "10+", label: "Products shipped" },
-  { value: "100%", label: "Direct access — no account managers" },
+// Edit this array — the second entry is a placeholder for your co-founder.
+const FOUNDERS = [
+  {
+    name: "Anamta Batool",
+    title: "Founder",
+    role: "Complementary skillset",
+    desc: "Add your partner's focus here — design, growth, backend, or whatever rounds out the studio. This block is a placeholder to fill in.",
+  },
+  {
+    name: "Aisha Arain",
+    title: "CO-Founder",
+    role: "Full-stack & AI integration",
+    desc: "Owns the Full stack end to end — architecture, auth, deployment — And Integrate the AI Features",
+  },
 ];
 
-const PRINCIPLES = [
-  {
-    title: "We ship, not stall",
-    desc: "No layers of approvals or handoffs between departments. Decisions get made and code gets written the same day.",
-  },
-  {
-    title: "Senior work, every time",
-    desc: "Every product that leaves our studio is built and reviewed by senior engineers — not junior devs learning on your budget.",
-  },
-  {
-    title: "Built to make money",
-    desc: "We measure our work by whether it moves your business forward — signups, retention, revenue — not just whether it ships.",
-  },
-];
+function getInitials(name) {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+  const first = parts[0][0];
+  const last = parts[parts.length - 1][0];
+  return (first + last).toUpperCase();
+}
 
 export default function About() {
   return (
-    <section id="about" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
+    <section id="team" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
       <div className="max-w-7xl mx-auto">
         <Reveal>
           <Eyebrow>About</Eyebrow>
           <h2 className="text-4xl md:text-6xl font-semibold max-w-2xl" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-            A studio built to ship
+            Two people, one studio
           </h2>
-          <p className="mt-6 max-w-xl text-sm md:text-base" style={{ color: "var(--text-muted)" }}>
-            We're a lean dev studio focused on one thing: building products that make startups money. No account managers, no departments to hand off between — just senior engineers writing code that ships.
-          </p>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-3 gap-6 md:gap-10 pb-14 border-b" style={{ borderColor: "var(--border)" }}>
-          {STATS.map((s, i) => (
-            <Reveal key={s.label} delay={i * 100}>
-              <div className="text-3xl md:text-5xl font-semibold mb-2" style={{ color: "var(--accent)", fontFamily: "var(--font-display)" }}>
-                {s.value}
-              </div>
-              <div className="text-xs md:text-sm" style={{ color: "var(--text-muted)" }}>
-                {s.label}
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-px" style={{ background: "var(--border)" }}>
-          {PRINCIPLES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 120} className="p-8 md:p-10" style={{ background: "var(--bg-alt)" }}>
-              <h3 className="text-lg font-semibold mb-3" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-                {p.title}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {FOUNDERS.map((f, i) => (
+            <Reveal
+              key={f.name}
+              delay={i * 120}
+              className="p-8 md:p-10 rounded-2xl transition-transform duration-300 hover:-translate-y-1"
+              style={{ background: "var(--bg)", border: "1px solid var(--border)" }}
+            >
+              <div
+  className="w-12 h-12 rounded-full mb-6 flex items-center justify-center text-sm font-semibold"
+  style={{ background: "var(--accent)", color: "#0B0D12", fontFamily: "var(--font-mono)" }}
+>
+  {getInitials(f.name)}
+</div>
+              <h3 className="text-xl font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
+                {f.name}
               </h3>
+              <div className="text-xs uppercase tracking-[0.1em] mt-1 mb-2" style={{ color: "var(--text-faint)" }}>
+                {f.title}
+              </div>
+              <div className="text-sm mb-4" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>
+                {f.role}
+              </div>
               <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {p.desc}
+                {f.desc}
               </p>
             </Reveal>
           ))}

@@ -10,6 +10,7 @@ import Pricing from "./components/Pricing";
 import Contact from "./components/Contact";
 import ClosingCTA from "./components/ClosingCTA";
 import Footer from "./components/Footer";
+import Testimonials from './components/Testimonials'
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
       <Process />
       <About />
       <Pricing />
+      <Testimonials/>
       <Contact />
       <ClosingCTA />
       <Footer />

@@ -26,7 +26,7 @@ export default function ClosingCTA() {
           send a message and we'll scope it together — no obligation, no sales deck.
         </p>
         <div className="mt-10">
-          <CTAButton onClick={() => scrollToId("contact")}>
+          <CTAButton onClick={() => scrollToId("start")}>
             Start Your Project <ArrowRight size={16} />
           </CTAButton>
         </div>

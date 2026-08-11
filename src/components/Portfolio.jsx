@@ -23,7 +23,7 @@ const PROJECTS = [
 
 export default function Portfolio() {
   return (
-    <section id="work" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
+    <section id="Build" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
       <div className="max-w-7xl mx-auto">
         <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
