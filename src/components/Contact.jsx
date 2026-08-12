@@ -1,34 +1,49 @@
 import React, { useCallback, useState } from "react";
-import { Mail, Linkedin, Github, Check, Copy, ArrowRight } from "lucide-react";
+import { Mail, Linkedin, Github, Check, Copy, ArrowRight, AlertCircle } from "lucide-react";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 import CTAButton from "./ui/CTAButton";
 
-// Replace with your real inbox. To wire this up to a real backend, swap the
-// body of handleSubmit for a POST to Formspree/EmailJS/your own API route —
-// see the comment inline below.
+// Shown only in the "email us directly" fallback text.
 const CONTACT_EMAIL = "hello.zanova.co@gmail.com";
+
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xnpavvak";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", company: "", projectType: "Web application", budget: "Under $1,500", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | sending | error
   const [copied, setCopied] = useState(false);
 
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = useCallback(async () => {
     if (!form.name || !form.email || !form.message) return;
+    setStatus("sending");
 
-    // No backend is wired up yet. This opens a pre-filled email as a working
-    // fallback — swap this block for a POST to Formspree/EmailJS/your API
-    // route when you're ready, e.g.:
-    // await fetch("https://formspree.io/f/xxxx", { method: "POST", body: JSON.stringify(form) })
-    const subject = encodeURIComponent(`New project inquiry — ${form.projectType}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nCompany: ${form.company || "—"}\nProject type: ${form.projectType}\nBudget: ${form.budget}\n\n${form.message}`
-    );
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.company,
+          projectType: form.projectType,
+          budget: form.budget,
+          message: form.message,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("idle");
+        setSubmitted(true);
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
   }, [form]);
 
   const copyEmail = () => {
@@ -49,27 +64,8 @@ export default function Contact() {
             Tell us what you're building
           </h2>
           <p className="mt-6 text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            Fill in the form and we'll reply within a day. Prefer email or a direct message? Use the links below.
+            Fill in the form and we'll reply within a day.
           </p>
-
-          <div className="mt-10 space-y-4">
-            <button onClick={copyEmail} className="flex items-center gap-3 text-sm group" style={{ color: "var(--text)" }}>
-              <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ border: "1px solid var(--border-strong)" }}>
-                <Mail size={15} />
-              </span>
-              <span style={{ fontFamily: "var(--font-mono)" }}>{CONTACT_EMAIL}</span>
-              <span style={{ color: "var(--accent)", opacity: copied ? 1 : 0, transition: "opacity 0.2s" }}>
-                <Copy size={13} className="inline mr-1" />
-                copied
-              </span>
-            </button>
-            <a href="https://www.linkedin.com/in/zenovaofficial/" className="flex items-center gap-3 text-sm" style={{ color: "var(--text)" }}>
-              <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ border: "1px solid var(--border-strong)" }}>
-                <Linkedin size={15} />
-              </span>
-              LinkedIn 
-            </a>
-          </div>
 
           <div className="mt-10 text-xs px-4 py-3 rounded-lg inline-block" style={{ border: "1px solid var(--border)", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
             Async-first · overlapping UK/US hours · &lt;24h response
@@ -83,10 +79,11 @@ export default function Contact() {
                 <Check size={20} color="#0B0D12" />
               </span>
               <h3 className="text-xl font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-                Your email client should be open
+                Message sent
               </h3>
               <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                If nothing opened, email us directly at <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>{CONTACT_EMAIL}</span>.
+                Thanks for reaching out — we'll get back to you within a day. If you don't hear from us, email{" "}
+                <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>{CONTACT_EMAIL}</span> directly.
               </p>
               <button onClick={() => setSubmitted(false)} className="text-sm underline" style={{ color: "var(--text-muted)" }}>
                 Send another message
@@ -94,6 +91,13 @@ export default function Contact() {
             </div>
           ) : (
             <div className="space-y-5">
+              {status === "error" && (
+                <div className="flex items-center gap-2 text-sm px-4 py-3 rounded-lg" style={{ border: "1px solid #ef444455", background: "#ef444411", color: "#ef4444" }}>
+                  <AlertCircle size={15} />
+                  Something went wrong sending your message. Please try again or email us directly.
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Name *</label>
@@ -136,8 +140,12 @@ export default function Contact() {
                 <textarea rows={5} className={fieldClass} style={inputStyle} value={form.message} onChange={update("message")} placeholder="Tell us about the project, timeline, and goals." />
               </div>
 
-              <CTAButton onClick={handleSubmit} className="w-full sm:w-auto">
-                Send message <ArrowRight size={16} />
+              <CTAButton onClick={handleSubmit} disabled={status === "sending"} className="w-full sm:w-auto">
+                {status === "sending" ? "Sending…" : (
+                  <>
+                    Send message <ArrowRight size={16} />
+                  </>
+                )}
               </CTAButton>
             </div>
           )}
