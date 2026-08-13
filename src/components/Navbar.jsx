@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import {
   Menu,
@@ -127,7 +128,7 @@ export default function Navbar() {
                 />
                 <img
                   src={logo}
-                  alt="Zenova"
+                  alt="Zenova Labs"
                   className="relative h-9 w-auto transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
@@ -366,31 +367,6 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Footer */}
-          {/* <div
-            className={`mt-8 sm:mt-14 pt-5 sm:pt-6 flex items-center justify-between transition-all duration-700 ${
-              open
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-6"
-            }`}
-            style={{ 
-              transitionDelay: open ? "600ms" : "0ms",
-              borderTop: `1px solid ${Y[400]}10` 
-            }}
-          >
-            <span
-              className="text-[11px] sm:text-[13px] font-black tracking-[0.2em] uppercase"
-              style={{ color: Y[400], opacity: 0.7 }}
-            >
-              Zenova
-            </span>
-            <span
-              className="text-[11px] sm:text-[12px] font-mono font-medium"
-              style={{ color: "rgba(255,255,255,0.2)" }}
-            >
-              Dev Agency
-            </span>
-          </div> */}
         </div>
       </div>
 

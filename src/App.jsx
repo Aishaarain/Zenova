@@ -2,7 +2,7 @@ import React from "react";
 import ScrollProgressBar from "./components/ScrollProgressBar";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Capabilities from "./components/Capabilities";
+import HowWeWork from "./components/HowWeWork";
 import Portfolio from "./components/Portfolio";
 import Process from "./components/Process";
 import About from "./components/About";
@@ -18,7 +18,7 @@ export default function App() {
       <ScrollProgressBar />
       <Navbar />
       <Hero />
-      <Capabilities />
+      <HowWeWork />
       <Portfolio />
       <Process />
       <About />
