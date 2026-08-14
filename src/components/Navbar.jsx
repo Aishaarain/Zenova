@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState, useRef } from "react";
 import {
   Menu,
@@ -32,7 +33,8 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 20);
-      const ids = ["top", "build", "shipped", "how", "testimonials", "pricing", "team", "start"];
+      // ✅ IDs must match section IDs exactly (lowercase)
+      const ids = ["top", "how", "build", "process", "team", "pricing", "testimonials", "start"];
       for (const id of ids) {
         const el = document.getElementById(id);
         if (el) {
@@ -56,12 +58,13 @@ export default function Navbar() {
     };
   }, [open]);
 
+  // ✅ IDs lowercase — must match section id="" exactly
   const links = [
-    { label: "How", id: "How", icon: Clock, tag: "On time. On budget. Every time." },
+    { label: "How", id: "how", icon: Clock, tag: "On time. On budget. Every time." },
     { label: "Build", id: "Build", icon: Code2, tag: "What we develop for you" },
-    { label: "Process", id: "process", icon: Rocket, tag: "Products making money now" },
-{ label: "Team", id: "team", icon: Users, tag: "Senior engineers only" },
- { label: "Pricing", id: "pricing", icon: CreditCard, tag: "Transparent pricing plans" },
+    { label: "Process", id: "process", icon: Rocket, tag: "How we deliver" },
+    { label: "Team", id: "team", icon: Users, tag: "Senior engineers only" },
+    { label: "Pricing", id: "pricing", icon: CreditCard, tag: "Transparent pricing plans" },
     { label: "Testimonials", id: "testimonials", icon: Star, tag: "What clients say about us" },
     { label: "Start", id: "start", icon: Play, tag: "Launch your project" },
   ];
@@ -113,7 +116,7 @@ export default function Navbar() {
       >
         <div className="max-w-[1400px] mx-auto px-6 lg:px-14">
           <div className="flex items-center justify-between h-[80px]">
-            {/* ─── LOGO (Wapas Pehle Jaisa) ─── */}
+            {/* ─── LOGO ─── */}
             <button
               onClick={() => scrollToId("top")}
               className="flex items-center gap-3 group"
@@ -234,7 +237,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ═══════════ FULLSCREEN MOBILE ═══════════ */}
       {/* ═══════════ FULLSCREEN MOBILE ═══════════ */}
       <div
         className={`fixed inset-0 z-40 lg:hidden transition-all duration-500 ${
@@ -366,7 +368,6 @@ export default function Navbar() {
               );
             })}
           </div>
-
         </div>
       </div>
 

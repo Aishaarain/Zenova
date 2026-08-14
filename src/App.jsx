@@ -3,7 +3,7 @@ import ScrollProgressBar from "./components/ScrollProgressBar";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import HowWeWork from "./components/HowWeWork";
-import Portfolio from "./components/Portfolio";
+import Build from "./components/Build";
 import Process from "./components/Process";
 import About from "./components/About";
 import Pricing from "./components/Pricing";
@@ -19,7 +19,7 @@ export default function App() {
       <Navbar />
       <Hero />
       <HowWeWork />
-      <Portfolio />
+      <Build />
       <Process />
       <About />
       <Pricing />
