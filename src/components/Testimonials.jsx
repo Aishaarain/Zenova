@@ -107,7 +107,7 @@ export default function Testimonials() {
               color: "#FACC15",
             }}
           >
-            <Sparkles size={12} style={{ color: "#FACC15" }} />
+          
             {sectionContent.eyebrow}
           </div>
 
