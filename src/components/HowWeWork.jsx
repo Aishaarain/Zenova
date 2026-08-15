@@ -8,6 +8,8 @@ import {
   Rocket,
   Headphones,
   ArrowRight,
+  Sparkles,
+  Zap,
 } from "lucide-react";
 import { scrollToId } from "../utils/scrollTo";
 import processImg from "../assets/Process.webp";
@@ -21,237 +23,211 @@ const Y = {
 
 const steps = [
   {
-    num: "01",
     icon: MessageSquare,
     title: "Discovery Call",
-    desc: "We jump on a 30-min call to understand your product, market, and revenue goals. No forms. No fluff.",
+    desc: "30-min call to understand your product, market, and revenue goals.",
     duration: "Day 1",
   },
   {
-    num: "02",
     icon: PenTool,
     title: "Design & Scope",
-    desc: "You get wireframes and a fixed scope within 48 hours. One price. One timeline. Zero surprises.",
+    desc: "Wireframes and fixed scope within 48 hours. One price. One timeline.",
     duration: "Days 2-3",
   },
   {
-    num: "03",
     icon: Code2,
     title: "Build & Ship",
-    desc: "We code in weekly sprints with live demos. React, Next.js, Node — whatever your product needs.",
+    desc: "Weekly sprints with live demos. React, Next.js, Node — whatever you need.",
     duration: "Weeks 2-5",
   },
   {
-    num: "04",
     icon: Rocket,
     title: "Launch & Scale",
-    desc: "We deploy to AWS/Vercel, connect your domain, and hand over clean code. Ready to scale.",
+    desc: "Deploy to AWS/Vercel, connect domain, and hand over clean code.",
     duration: "Week 6",
   },
   {
-    num: "05",
     icon: Headphones,
     title: "30-Day Support",
-    desc: "Free bug fixes and tweaks for 30 days post-launch. We don't disappear after delivery.",
+    desc: "Free bug fixes and tweaks for 30 days post-launch.",
     duration: "Ongoing",
   },
 ];
 
 export default function HowWeWork() {
+  const sectionContent = {
+    badge: "⚡ Fast Track Development",
+    heading: "From Idea to Live Product in 4–6 Weeks",
+    description: "No 50-page proposals. No 3-month delays. Our proven 5-step development process is built for founders who want to move fast, ship faster, and start generating revenue.",
+    cta: "Start Your Project",
+    imageAlt: "ZenovaLab agile software development process showing design sprints, coding, and product launch workflow"
+  };
+
   return (
     <section
       id="how"
-      aria-label="How Zenova works"
-      className="relative py-24 md:py-32 px-6 md:px-10 overflow-hidden"
+      aria-label="ZenovaLab software development process - From idea to launch in 4-6 weeks"
+      className="relative py-10 sm:py-14 md:py-18 lg:py-22 px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden"
       style={{
-        background: "linear-gradient(180deg, #05050a 0%, #0a0a14 50%, #070710 100%)",
+        background: "linear-gradient(180deg, #0a0a18 0%, #0f0e1a 30%, #0d0d1a 60%, #0a0a18 100%)",
       }}
     >
-      {/* ─── Subtle Mesh Gradient ─── */}
+      {/* Premium Mesh Gradient */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-30"
         style={{
-          backgroundImage: `radial-gradient(at 40% 20%, ${Y[500]}08 0px, transparent 50%),
-                             radial-gradient(at 80% 0%, ${Y[400]}05 0px, transparent 50%),
-                             radial-gradient(at 0% 50%, ${Y[500]}06 0px, transparent 50%)`,
+          backgroundImage: `
+            radial-gradient(at 30% 20%, rgba(250,204,21,0.06) 0px, transparent 50%),
+            radial-gradient(at 70% 80%, rgba(168,85,247,0.05) 0px, transparent 50%),
+            radial-gradient(at 50% 50%, rgba(250,204,21,0.03) 0px, transparent 60%)
+          `,
+        }}
+      />
+
+      {/* Decorative Glow Orbs */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[-10%] left-[-5%] w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full opacity-20"
+        style={{
+          background: `radial-gradient(circle, ${Y[400]}08, transparent 70%)`,
+          filter: "blur(60px)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-[-10%] right-[-5%] w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] rounded-full opacity-15"
+        style={{
+          background: "radial-gradient(circle, rgba(168,85,247,0.08), transparent 70%)",
+          filter: "blur(60px)",
         }}
       />
 
       <div className="relative max-w-[1400px] mx-auto w-full">
-        {/* ═══ HEADER ═══ */}
-        <header className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+        {/* HEADER */}
+        <header className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-14 lg:mb-18">
+          {/* Badge */}
           <div
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase mb-5"
+            className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] md:text-[11px] font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase mb-3 sm:mb-4 transition-all duration-300"
             style={{
-              background: `${Y[400]}08`,
+              background: `linear-gradient(135deg, ${Y[400]}12, rgba(168,85,247,0.08))`,
               border: `1px solid ${Y[400]}15`,
               color: Y[400],
+              boxShadow: `0 0 30px ${Y[400]}05`,
             }}
           >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: Y[400] }} />
-            Our Process
+            <Zap size={12} className="sm:w-[13px] sm:h-[13px] md:w-[14px] md:h-[14px]" style={{ color: Y[400] }} />
+            {sectionContent.badge}
+            <Sparkles size={10} className="sm:w-[11px] sm:h-[11px] md:w-[12px] md:h-[12px]" style={{ color: Y[400] }} />
           </div>
 
+          {/* Heading */}
           <h2
-            className="text-[clamp(2rem,4.5vw,3.2rem)] font-black leading-[1.08] tracking-[-0.03em]"
+            className="text-[clamp(1.6rem,4vw,3rem)] font-black leading-[1.08] tracking-[-0.03em]"
             style={{ color: "#fff" }}
           >
-            From Idea to Live Product in{" "}
-            <span style={{ color: Y[400] }}>4–6 Weeks</span>
+            {sectionContent.heading.split(" ").map((word, i) => {
+              if (word === "4–6" || word === "Weeks") {
+                return (
+                  <span key={i} style={{ color: Y[400] }}>
+                    {word}{" "}
+                  </span>
+                );
+              }
+              return <span key={i}>{word} </span>;
+            })}
           </h2>
 
+          {/* Description */}
           <p
-            className="mt-5 text-[15px] md:text-[16px] leading-[1.7]"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            className="mt-3 sm:mt-4 text-[13px] sm:text-[14px] md:text-[15px] leading-[1.6] sm:leading-[1.7] max-w-xl mx-auto px-2"
+            style={{ color: "rgba(255,255,255,0.5)" }}
           >
-            No 50-page proposals. No 3-month delays. Our process is built for 
-            founders who want to move fast and ship faster.
+            {sectionContent.description}
           </p>
         </header>
 
-        {/* ═══ CONTENT GRID ═══ */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        {/* CONTENT GRID - Image Right, Steps Left */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-14 items-start">
           
-          {/* ─── LEFT: Process Image ─── */}
-          <aside className="relative">
-            <div className="relative">
-              {/* Frame border effect */}
-              <div
-                className="absolute -inset-[1px] rounded-2xl"
-                style={{
-                  background: `linear-gradient(135deg, ${Y[400]}20, transparent, ${Y[500]}10)`,
-                  padding: "1px",
-                }}
-              >
-                <div className="w-full h-full rounded-2xl" style={{ background: "#0a0a12" }} />
-              </div>
-
-              <figure className="relative rounded-2xl overflow-hidden m-0">
-                <img
-                  src={processImg}
-                  alt="Zenova agile development process showing design sprints, coding, and product launch workflow"
-                  className="relative w-full h-auto rounded-2xl object-cover aspect-[4/3]"
-                  width="700"
-                  height="525"
-                  loading="lazy"
+          {/* LEFT: Steps Cards - 2 per row */}
+          <div className="order-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
+              {steps.map(({ icon: Icon, title, desc, duration }, i) => (
+                <article
+                  key={i}
+                  className="group relative flex flex-col gap-2 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl md:rounded-2xl transition-all duration-300 cursor-default"
                   style={{
-                    border: `1px solid ${Y[400]}08`,
+                    background: "rgba(255,255,255,0.02)",
+                    border: `1px solid rgba(255,255,255,0.04)`,
                   }}
-                />
-
-                {/* Bottom fade */}
-                <div
-                  className="absolute inset-0 rounded-2xl pointer-events-none"
-                  style={{
-                    background: "linear-gradient(180deg, transparent 50%, rgba(5,5,10,0.9) 100%)",
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = `rgba(255,255,255,0.04)`;
+                    e.currentTarget.style.borderColor = `${Y[400]}25`;
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = `0 4px 20px ${Y[400]}05`;
                   }}
-                  aria-hidden="true"
-                />
-              </figure>
-
-              {/* Floating tag */}
-              <div
-                className="absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between px-5 py-3.5 rounded-xl"
-                style={{
-                  background: "rgba(10,10,18,0.9)",
-                  border: `1px solid ${Y[400]}15`,
-                  backdropFilter: "blur(12px)",
-                }}
-              >
-                <span className="text-[13px] font-bold" style={{ color: "#fff" }}>
-                  Fixed Price Guarantee
-                </span>
-                <span className="text-[11px] font-bold px-2.5 py-1 rounded-md" style={{ background: `${Y[400]}15`, color: Y[400] }}>
-                  No Hidden Costs
-                </span>
-              </div>
-            </div>
-          </aside>
-
-          {/* ─── RIGHT: Steps Cards ─── */}
-          <div className="space-y-4">
-            {steps.map(({ num, icon: Icon, title, desc, duration }, i) => (
-              <article
-                key={num}
-                className="group relative flex gap-5 p-5 md:p-6 rounded-2xl transition-all duration-400 cursor-default"
-                style={{
-                  background: "rgba(255,255,255,0.015)",
-                  border: "1px solid rgba(255,255,255,0.04)",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
-                  e.currentTarget.style.borderColor = `${Y[400]}20`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255,255,255,0.015)";
-                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.04)";
-                }}
-              >
-                {/* Large faded number */}
-                <span
-                  className="absolute top-2 right-4 text-[48px] md:text-[64px] font-black leading-none select-none pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-                  style={{
-                    color: "transparent",
-                    WebkitTextStroke: `1px ${Y[400]}15`,
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "rgba(255,255,255,0.02)";
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.04)";
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
                   }}
                 >
-                  {num}
-                </span>
-
-                {/* Icon */}
-                <div
-                  className="relative shrink-0 w-11 h-11 md:w-12 md:h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                  style={{
-                    background: `${Y[400]}08`,
-                    border: `1px solid ${Y[400]}15`,
-                  }}
-                >
-                  <Icon size={18} style={{ color: Y[400] }} aria-hidden="true" />
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 relative z-10">
-                  <div className="flex flex-wrap items-center gap-3 mb-1.5">
-                    <h3
-                      className="text-[16px] md:text-[18px] font-black tracking-[-0.02em]"
-                      style={{ color: "#fff" }}
-                    >
-                      {title}
-                    </h3>
-                    <span
-                      className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
-                      style={{
-                        background: `${Y[400]}08`,
-                        color: Y[400],
-                        border: `1px solid ${Y[400]}12`,
-                      }}
-                    >
-                      {duration}
-                    </span>
-                  </div>
-                  <p
-                    className="text-[13px] md:text-[14px] leading-[1.7]"
-                    style={{ color: "rgba(255,255,255,0.4)" }}
+                  {/* Icon */}
+                  <div
+                    className="relative shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                    style={{
+                      background: `${Y[400]}10`,
+                      border: `1px solid ${Y[400]}15`,
+                    }}
                   >
-                    {desc}
-                  </p>
-                </div>
+                    <Icon size={14} className="sm:w-[15px] sm:h-[15px] md:w-[16px] md:h-[16px]" style={{ color: Y[400] }} aria-hidden="true" />
+                  </div>
 
-                {/* Hover arrow */}
-                <div
-                  className="hidden md:flex items-center self-center opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0"
-                >
-                  <ArrowRight size={16} style={{ color: Y[400] }} />
-                </div>
-              </article>
-            ))}
+                  {/* Content */}
+                  <div className="flex-1 relative z-10 min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+                      <h3
+                        className="text-[12px] sm:text-[13px] md:text-[15px] font-black tracking-[-0.02em]"
+                        style={{ color: "#fff" }}
+                      >
+                        {title}
+                      </h3>
+                      <span
+                        className="text-[6px] sm:text-[7px] md:text-[8px] font-bold uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded flex-shrink-0"
+                        style={{
+                          background: `${Y[400]}08`,
+                          color: Y[400],
+                          border: `1px solid ${Y[400]}12`,
+                        }}
+                      >
+                        {duration}
+                      </span>
+                    </div>
+                    <p
+                      className="text-[10px] sm:text-[11px] md:text-[12px] leading-[1.4] sm:leading-[1.5]"
+                      style={{ color: "rgba(255,255,255,0.5)" }}
+                    >
+                      {desc}
+                    </p>
+                  </div>
 
-            {/* CTA */}
-            <div className="pt-4">
+                  {/* Arrow indicator */}
+                  <div
+                    className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 opacity-0 group-hover:opacity-100 transition-all duration-300"
+                  >
+                    <ArrowRight size={12} className="sm:w-[13px] sm:h-[13px]" style={{ color: Y[400] }} />
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* CTA Button */}
+            <div className="mt-4 sm:mt-5 md:mt-6">
               <button
                 onClick={() => scrollToId("start")}
-                className="group flex items-center gap-3 px-7 py-4 rounded-xl text-[14px] font-black transition-all duration-300 w-full md:w-auto justify-center md:justify-start"
+                className="group flex items-center gap-2 sm:gap-3 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-3.5 rounded-lg sm:rounded-xl text-[12px] sm:text-[13px] md:text-[14px] font-black transition-all duration-300 w-full sm:w-auto justify-center"
                 style={{
                   background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
                   color: "#0a0a0f",
@@ -266,15 +242,55 @@ export default function HowWeWork() {
                   e.currentTarget.style.transform = "scale(1)";
                 }}
               >
-                Start Your Project
+                {sectionContent.cta}
                 <ArrowRight
-                  size={15}
+                  size={13}
+                  className="sm:w-[14px] sm:h-[14px] md:w-[15px] md:h-[15px]"
                   strokeWidth={2.5}
-                  className="group-hover:translate-x-1 transition-transform duration-300"
                 />
               </button>
             </div>
           </div>
+
+          {/* RIGHT: Process Image - Clean, No Text */}
+          <aside className="relative order-2">
+            <div className="relative">
+              {/* Premium Border Effect */}
+              <div
+                className="absolute -inset-[2px] rounded-xl sm:rounded-2xl"
+                style={{
+                  background: `linear-gradient(135deg, ${Y[400]}30, rgba(168,85,247,0.2), ${Y[400]}20)`,
+                  padding: "2px",
+                  boxShadow: `0 0 30px ${Y[400]}08`,
+                }}
+              >
+                <div className="w-full h-full rounded-xl sm:rounded-2xl" style={{ background: "#0a0a18" }} />
+              </div>
+
+              <figure className="relative rounded-xl sm:rounded-2xl overflow-hidden m-0">
+                <img
+                  src={processImg}
+                  alt={sectionContent.imageAlt}
+                  className="relative w-full h-auto rounded-xl sm:rounded-2xl object-cover aspect-[4/3]"
+                  width="700"
+                  height="525"
+                  loading="lazy"
+                  style={{
+                    border: `1px solid ${Y[400]}08`,
+                  }}
+                />
+
+                {/* Bottom fade */}
+                <div
+                  className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none"
+                  style={{
+                    background: "linear-gradient(180deg, transparent 50%, rgba(10,10,24,0.9) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+              </figure>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

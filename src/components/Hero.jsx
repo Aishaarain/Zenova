@@ -4,15 +4,14 @@ import React from "react";
 import {
   ArrowRight,
   ArrowUpRight,
-  TrendingUp,
-  Users,
-  Rocket,
-  ShieldCheck,
+  Globe,
+  Smartphone,
+  Layout,
+  Server,
 } from "lucide-react";
 import { scrollToId } from "../utils/scrollTo";
 
 import heroImg from "../assets/hero.webp";
-import logo from "../assets/logo.webp";
 
 const Y = {
   300: "#FDE047",
@@ -24,40 +23,49 @@ const Y = {
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Zenova",
-  url: "https://zenova.dev",
-  logo: "https://zenova.dev/logo.webp",
+  name: "ZenovaLab",
+  url: "https://zenovalab.it.com",
+  logo: "https://zenovalab.it.com/logo.webp",
   description: "Premium MVP development agency building revenue-generating SaaS and AI products in 4-6 weeks.",
+  sameAs: [
+    "https://linkedin.com/company/zenovalab",
+    "https://github.com/zenovalab"
+  ]
 };
 
-function FloatBadge({ icon: Icon, label, value, position, delay = 0 }) {
+// Info Cards - No Animation, Responsive
+function InfoCard({ icon: Icon, label, value, position, delay = 0 }) {
   return (
     <div
-      className="absolute z-20 rounded-xl px-4 py-3 backdrop-blur-md"
+      className="absolute z-20 rounded-xl sm:rounded-2xl px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 md:py-2.5 backdrop-blur-xl"
       style={{
         ...position,
-        background: "rgba(10,10,18,0.92)",
-        border: `1px solid ${Y[400]}22`,
-        boxShadow: `0 12px 40px rgba(0,0,0,0.6), 0 0 24px ${Y[400]}10`,
-        animation: `heroFloat 5s ease-in-out ${delay}s infinite`,
+        background: "rgba(10,10,18,0.88)",
+        border: `1px solid ${Y[400]}20`,
+        boxShadow: `0 8px 30px rgba(0,0,0,0.6)`,
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
       }}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-2 md:gap-2.5">
         <div
-          className="w-9 h-9 rounded-lg flex items-center justify-center"
-          style={{ background: `${Y[400]}10`, border: `1px solid ${Y[400]}20` }}
+          className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center"
+          style={{
+            background: `${Y[400]}15`,
+            border: `1px solid ${Y[400]}20`,
+          }}
         >
-          <Icon size={16} style={{ color: Y[400] }} aria-hidden="true" />
+          <Icon size={12} className="sm:w-[13px] sm:h-[13px] md:w-[14px] md:h-[14px]" style={{ color: Y[400] }} aria-hidden="true" />
         </div>
         <div>
           <div
-            className="text-[10px] uppercase tracking-[0.15em] font-bold"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            className="text-[6px] sm:text-[7px] md:text-[8px] uppercase tracking-[0.15em] sm:tracking-[0.2em] font-bold"
+            style={{ color: "rgba(255,255,255,0.4)" }}
           >
             {label}
           </div>
           <div
-            className="text-[14px] font-black mt-0.5"
+            className="text-[10px] sm:text-[11px] md:text-[13px] font-black mt-0.5 tracking-[-0.02em]"
             style={{ color: "#fff" }}
           >
             {value}
@@ -76,6 +84,20 @@ export default function Hero() {
     "Custom Web Apps",
   ];
 
+  const heroContent = {
+    badge: "Ship in Weeks, Not Months",
+    heading: {
+      prefix: "We Build",
+      highlight: "SaaS & AI",
+      suffix: "Products That Make You Money"
+    },
+    description: "Stop waiting 6 months for a broken MVP. ZenovaLab ships revenue-ready SaaS and AI solutions in just 4-6 weeks. We handle the entire process from design to deployment so you can grow your business.",
+    cta: {
+      primary: "Start Your Project",
+      secondary: "View Our Work"
+    }
+  };
+
   return (
     <>
       <script type="application/ld+json">
@@ -84,97 +106,115 @@ export default function Hero() {
 
       <section
         id="top"
-        aria-label="Zenova MVP Development Agency"
-        className="relative min-h-screen flex flex-col justify-center pt-20 pb-20 px-6 md:px-10 overflow-hidden"
+        aria-label="ZenovaLab - Premium MVP Development Agency for SaaS and AI Products"
+        className="relative min-h-screen flex flex-col justify-center pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-14 sm:pb-16 md:pb-20 px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden"
         style={{
-          background: "linear-gradient(180deg, #06060c 0%, #0a0a14 40%, #08080f 100%)",
+          background: "linear-gradient(180deg, #050508 0%, #0A0A12 30%, #0F0E08 60%, #080810 100%)",
         }}
       >
-        {/* Ambient Glow */}
+        {/* Animated Background Orbs */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute top-[-15%] right-[-10%] w-[800px] h-[800px] rounded-full"
+          className="pointer-events-none absolute inset-0 opacity-20 sm:opacity-25 md:opacity-30"
           style={{
-            background: `radial-gradient(circle, ${Y[500]}08, transparent 65%)`,
+            background: `
+              radial-gradient(ellipse at 20% 50%, ${Y[400]}06 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, ${Y[500]}04 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, ${Y[400]}05 0%, transparent 50%)
+            `,
+          }}
+        />
+
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-[-20%] right-[-10%] w-[600px] sm:w-[700px] md:w-[900px] h-[600px] sm:h-[700px] md:h-[900px] rounded-full"
+          style={{
+            background: `radial-gradient(circle, ${Y[500]}06, transparent 70%)`,
             filter: "blur(80px)",
+            animation: "orbFloat 8s ease-in-out infinite alternate",
           }}
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full"
+          className="pointer-events-none absolute bottom-[-20%] left-[-10%] w-[500px] sm:w-[600px] md:w-[700px] h-[500px] sm:h-[600px] md:h-[700px] rounded-full"
           style={{
-            background: `radial-gradient(circle, ${Y[400]}06, transparent 60%)`,
+            background: `radial-gradient(circle, ${Y[400]}05, transparent 70%)`,
             filter: "blur(60px)",
+            animation: "orbFloat 10s ease-in-out infinite alternate-reverse",
           }}
         />
 
         {/* Dot Grid */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-20"
+          className="pointer-events-none absolute inset-0 opacity-10"
           style={{
-            backgroundImage:
-              "radial-gradient(rgba(250,204,21,0.12) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-            maskImage:
-              "linear-gradient(to bottom, black 20%, transparent 70%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 20%, transparent 70%)",
+            backgroundImage: `
+              radial-gradient(rgba(250,204,21,0.06) 1px, transparent 1px),
+              radial-gradient(rgba(250,204,21,0.03) 1px, transparent 1px)
+            `,
+            backgroundSize: "48px 48px, 24px 24px",
+            maskImage: "linear-gradient(to bottom, black 10%, transparent 80%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 10%, transparent 80%)",
           }}
         />
 
         {/* MAIN GRID */}
-        <div className="relative max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="relative max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
           
           {/* LEFT: Content */}
-          <header className="lg:col-span-5 xl:col-span-5">
+          <header className="lg:col-span-5 xl:col-span-5 flex flex-col items-start text-left w-full">
+            {/* Premium Badge - Clean */}
             <div
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[11px] font-bold tracking-[0.2em] uppercase mb-5"
+              className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-full text-[8px] sm:text-[9px] md:text-[10px] font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-3 sm:mb-4 md:mb-5"
               style={{
-                background: `${Y[400]}08`,
+                background: `linear-gradient(135deg, ${Y[400]}10, ${Y[500]}05)`,
                 border: `1px solid ${Y[400]}15`,
                 color: Y[400],
+                boxShadow: `0 0 30px ${Y[400]}08`,
               }}
             >
-              <span
-                className="w-1.5 h-1.5 rounded-full animate-pulse"
-                style={{ background: Y[400] }}
-              />
-              MVP Development Agency
+              {heroContent.badge}
             </div>
 
+            {/* Heading - NO UNDERLINE */}
             <h1
-              className="text-[clamp(2.2rem,4.8vw,3.4rem)] font-black leading-[1.06] tracking-[-0.03em]"
+              className="text-[clamp(1.6rem,4.5vw,3.2rem)] font-black leading-[1.08] tracking-[-0.03em] w-full"
               style={{ color: "#fff" }}
             >
-              We Build{" "}
-              <span style={{ color: Y[400] }}>SaaS & AI</span>
+              {heroContent.heading.prefix}{" "}
+              <span 
+                className="inline-block"
+                style={{ 
+                  color: Y[400],
+                  textShadow: `0 0 40px ${Y[400]}20`,
+                }}
+              >
+                {heroContent.heading.highlight}
+              </span>
               <br />
-              Products That
-              <br />
-              Make You Money
+              {heroContent.heading.suffix}
             </h1>
 
+            {/* Description */}
             <p
-              className="mt-5 max-w-md text-[15px] md:text-[16px] leading-[1.7]"
+              className="mt-3 sm:mt-4 md:mt-5 max-w-md text-[13px] sm:text-[14px] md:text-[16px] leading-[1.6] sm:leading-[1.7] md:leading-[1.8] w-full"
               style={{ color: "rgba(255,255,255,0.5)" }}
             >
-              Stop waiting 6 months for a broken MVP. We ship{" "}
-              <strong style={{ color: "rgba(255,255,255,0.85)" }}>
-                revenue-ready products
-              </strong>{" "}
-              in 4-6 weeks. You focus on growth, we handle the code.
+              {heroContent.description}
             </p>
 
-            <nav aria-label="Services" className="mt-5 flex flex-wrap gap-2">
-              {services.map((s) => (
+            {/* Service Tags */}
+            <nav aria-label="Our Services" className="mt-4 sm:mt-5 md:mt-6 flex flex-wrap gap-1.5 w-full">
+              {services.map((s, i) => (
                 <span
                   key={s}
-                  className="px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide"
+                  className="px-2.5 sm:px-3 md:px-3.5 py-1 rounded-lg text-[8px] sm:text-[9px] md:text-[10px] font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105"
                   style={{
-                    background: "rgba(255,255,255,0.025)",
-                    border: "1px solid rgba(255,255,255,0.07)",
-                    color: "rgba(255,255,255,0.4)",
+                    background: `linear-gradient(135deg, rgba(255,255,255,0.04), rgba(250,204,21,0.04))`,
+                    border: `1px solid rgba(255,255,255,0.06)`,
+                    color: i === 0 ? Y[400] : "rgba(255,255,255,0.4)",
+                    boxShadow: i === 0 ? `0 0 20px ${Y[400]}08` : "none",
                   }}
                 >
                   {s}
@@ -182,18 +222,27 @@ export default function Hero() {
               ))}
             </nav>
 
-            <div className="mt-7 flex flex-wrap items-center gap-4">
+            {/* CTA Buttons */}
+            <div className="mt-5 sm:mt-6 md:mt-8 flex flex-wrap items-center gap-2.5 sm:gap-3 md:gap-4 w-full">
               <a
                 href="#start"
                 onClick={(e) => {
                   e.preventDefault();
                   scrollToId("start");
                 }}
-                className="relative group overflow-hidden rounded-xl px-7 py-3.5 text-[14px] font-black tracking-[-0.01em] transition-all duration-300"
+                className="relative group overflow-hidden rounded-xl px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 text-[12px] sm:text-[13px] md:text-[14px] font-black tracking-[-0.01em] transition-all duration-300"
                 style={{
                   background: `linear-gradient(135deg, ${Y[400]} 0%, ${Y[500]} 100%)`,
                   color: "#0a0a0f",
-                  boxShadow: `0 4px 20px ${Y[400]}25`,
+                  boxShadow: `0 4px 25px ${Y[400]}25`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 40px ${Y[400]}35`;
+                  e.currentTarget.style.transform = "scale(1.03)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = `0 4px 25px ${Y[400]}25`;
+                  e.currentTarget.style.transform = "scale(1)";
                 }}
               >
                 <span
@@ -205,24 +254,24 @@ export default function Hero() {
                     animation: "heroShimmer 2s ease-in-out infinite",
                   }}
                 />
-                <span className="relative z-10 flex items-center gap-2">
-                  Start Your Project
+                <span className="relative z-10 flex items-center gap-1.5 sm:gap-2">
+                  {heroContent.cta.primary}
                   <ArrowUpRight
-                    size={15}
+                    size={13}
+                    className="sm:w-[14px] sm:h-[14px] md:w-[15px] md:h-[15px]"
                     strokeWidth={2.5}
-                    className="group-hover:rotate-45 transition-transform duration-300"
                     aria-hidden="true"
                   />
                 </span>
               </a>
 
               <a
-                href="#shipped"
+                href="#build"
                 onClick={(e) => {
                   e.preventDefault();
-                  scrollToId("shipped");
+                  scrollToId("build");
                 }}
-                className="group flex items-center gap-2 px-5 py-3.5 rounded-xl text-[14px] font-bold transition-all duration-300"
+                className="group flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-xl text-[12px] sm:text-[13px] md:text-[14px] font-bold transition-all duration-300"
                 style={{
                   color: "rgba(255,255,255,0.55)",
                   background: "rgba(255,255,255,0.03)",
@@ -231,100 +280,116 @@ export default function Hero() {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = Y[400];
                   e.currentTarget.style.borderColor = `${Y[400]}25`;
+                  e.currentTarget.style.background = `${Y[400]}08`;
+                  e.currentTarget.style.transform = "scale(1.02)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.color = "rgba(255,255,255,0.55)";
                   e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.03)";
+                  e.currentTarget.style.transform = "scale(1)";
                 }}
               >
-                View Our Work
+                {heroContent.cta.secondary}
                 <ArrowRight
-                  size={14}
-                  className="group-hover:translate-x-1 transition-transform duration-300"
-                  aria-hidden="true"
+                  size={13}
+                  className="sm:w-[14px] sm:h-[14px]"
                 />
               </a>
             </div>
           </header>
 
-          {/* RIGHT: Image */}
+          {/* RIGHT: Image with Prominent Border & Responsive Cards */}
           <aside
             className="lg:col-span-7 xl:col-span-7 relative lg:-mt-8"
-            aria-label="Product preview"
+            aria-label="ZenovaLab Product Showcase"
           >
             <div className="relative">
-              <div
-                className="absolute -inset-3 rounded-[2rem] blur-2xl opacity-20"
-                style={{ background: Y[500] }}
-                aria-hidden="true"
-              />
-
-              <figure className="relative rounded-3xl overflow-hidden m-0">
-                <img
-                  src={heroImg}
-                  alt="Zenova SaaS dashboard with revenue analytics and real-time data visualization"
-                  className="relative w-full h-auto rounded-3xl object-cover"
-                  width="900"
-                  height="600"
-                  loading="eager"
-                  fetchpriority="high"
-                  style={{
-                    border: `1px solid ${Y[400]}12`,
-                    boxShadow: `0 40px 100px rgba(0,0,0,0.7)`,
-                  }}
-                />
-
+              {/* Image with Prominent Border */}
+              <figure className="relative rounded-xl sm:rounded-2xl overflow-hidden m-0 shadow-2xl">
                 <div
-                  className="absolute inset-0 rounded-3xl pointer-events-none"
+                  className="relative rounded-xl sm:rounded-2xl overflow-hidden"
                   style={{
-                    background:
-                      "linear-gradient(180deg, transparent 50%, rgba(6,6,12,0.85) 100%)",
+                    border: `2px solid ${Y[400]}30`,
+                    boxShadow: `0 0 40px ${Y[400]}15, 0 30px 80px rgba(0,0,0,0.7), inset 0 0 60px ${Y[400]}05`,
                   }}
-                  aria-hidden="true"
-                />
+                >
+                  <img
+                    src={heroImg}
+                    alt="ZenovaLab SaaS platform dashboard showcasing revenue analytics, user metrics, and AI-powered business intelligence tools"
+                    className="relative w-full h-auto rounded-xl sm:rounded-2xl object-cover"
+                    width="900"
+                    height="600"
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+
+                  {/* Gradient Overlay */}
+                  <div
+                    className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, transparent 40%, rgba(6,6,12,0.9) 100%)",
+                    }}
+                    aria-hidden="true"
+                  />
+                </div>
               </figure>
 
-              {/* Business Badges */}
-              <FloatBadge
-                icon={TrendingUp}
-                label="Monthly Revenue"
-                value="$48,500"
-                position={{ top: "5%", left: "-5%" }}
-                delay={0}
+              {/* Responsive Info Cards - No Animation */}
+              <InfoCard
+                icon={Globe}
+                label="Web Apps"
+                value="Full Stack"
+                position={{ 
+                  top: "2%", 
+                  left: "-1%",
+                  transform: "translateX(0)"
+                }}
               />
-              <FloatBadge
-                icon={Users}
-                label="Active Users"
-                value="12,400+"
-                position={{ top: "15%", right: "-4%" }}
-                delay={1.2}
+              <InfoCard
+                icon={Smartphone}
+                label="Mobile"
+                value="Responsive"
+                position={{ 
+                  top: "10%", 
+                  right: "-1%",
+                  transform: "translateX(0)"
+                }}
               />
-              <FloatBadge
-                icon={Rocket}
-                label="Shipped In"
-                value="4 Weeks"
-                position={{ bottom: "20%", left: "-6%" }}
-                delay={2.4}
+              <InfoCard
+                icon={Layout}
+                label="Design"
+                value="UI/UX"
+                position={{ 
+                  bottom: "25%", 
+                  left: "-2%",
+                  transform: "translateX(0)"
+                }}
               />
-              <FloatBadge
-                icon={ShieldCheck}
-                label="Uptime SLA"
-                value="99.9%"
-                position={{ bottom: "8%", right: "-3%" }}
-                delay={1.8}
+              <InfoCard
+                icon={Server}
+                label="Backend"
+                value="Scalable"
+                position={{ 
+                  bottom: "8%", 
+                  right: "-1%",
+                  transform: "translateX(0)"
+                }}
               />
             </div>
           </aside>
         </div>
 
+        {/* Styles */}
         <style>{`
-          @keyframes heroFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-          }
           @keyframes heroShimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
+          }
+          @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(20px, -15px) scale(1.05); }
           }
         `}</style>
       </section>

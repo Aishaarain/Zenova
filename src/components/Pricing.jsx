@@ -1,57 +1,201 @@
 import React from "react";
-import { Check } from "lucide-react";
+import { Check, Sparkles, ArrowRight, Zap, Rocket, Shield, Star, Crown } from "lucide-react";
+import { scrollToId } from "../utils/scrollTo";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 
-// Adjust these to your real rates.
+// Pricing Data - Contact for Pricing Approach
 const TIERS = [
-  { name: "MVP build", price: "from $300", desc: "A focused web app or AI feature, scoped and shipped in a single sprint.", items: ["1–2 core features", "Auth & database included", "2 weeks average turnaround"] },
-  { name: "Full product", price: "from $800", desc: "A complete MERN product with AI integration, built over several sprints.", items: ["Multi-feature build", "AI/RAG integration", "Weekly demos"], highlighted: true },
-  { name: "Retainer", price: "from $200/mo", desc: "Ongoing support and iteration once your product is live.", items: ["Priority response time", "Bug fixes & small features", "Monthly check-in call"] },
+  { 
+    name: "MVP Launch",
+    icon: Rocket,
+    desc: "Perfect for startups and founders ready to test their idea with a minimum viable product.",
+    features: [
+      "Core feature development",
+      "Database & auth setup", 
+      "Basic UI/UX design",
+      "2-3 weeks delivery"
+    ],
+  },
+  { 
+    name: "Full Product",
+    icon: Zap,
+    desc: "End-to-end product development with AI integration, designed for scale and revenue generation.",
+    features: [
+      "Complete MERN stack build",
+      "AI/RAG integration",
+      "Custom UI/UX design",
+      "Weekly progress demos",
+      "Production deployment",
+      "30-day free support"
+    ],
+  },
+  { 
+    name: "Enterprise Suite",
+    icon: Crown,
+    desc: "Everything you need to scale your product with dedicated support, advanced AI features, and full-stack development.",
+    features: [
+      "Everything in Full Product",
+      "Dedicated development team",
+      "Advanced AI/ML features",
+      "Custom integrations",
+      "24/7 priority support",
+      "Monthly strategy & growth calls",
+      "Performance optimization",
+      "Security & compliance audit"
+    ],
+  },
 ];
 
 export default function Pricing() {
-  return (
-    <section id="pricing" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
-      <div className="max-w-7xl mx-auto">
-        <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
-          <div>
-            <Eyebrow>Pricing</Eyebrow>
-            <h2 className="text-4xl md:text-6xl font-semibold max-w-2xl" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-              Rough starting points
-            </h2>
-          </div>
-          <p className="max-w-sm text-sm" style={{ color: "var(--text-muted)" }}>
-            Every project is scoped on a call. These ranges are placeholders — adjust them to match your real rates.
-          </p>
-        </Reveal>
+  const sectionContent = {
+    eyebrow: "Investment",
+    heading: "Build Your Product, Your Way",
+    subheading: "Every project is unique. We'll work with you to create a custom plan that fits your budget and goals.",
+    cta: "Contact for Pricing",
+  };
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+  return (
+    <section 
+      id="pricing" 
+      aria-label="ZenovaLab pricing - Contact for custom quotes"
+      className="relative py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden"
+      style={{ 
+        background: "linear-gradient(180deg, #0f0f12 0%, #141418 40%, #0f0f12 100%)" 
+      }}
+    >
+      {/* Background Effects */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 50%, rgba(250,204,21,0.04), transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(250,204,21,0.03), transparent 50%)
+          `,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[-10%] left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full opacity-15"
+        style={{
+          background: `radial-gradient(circle, rgba(250,204,21,0.06), transparent 70%)`,
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+        {/* Header - Reduced Space */}
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase mb-2 sm:mb-3"
+            style={{
+              background: "rgba(250,204,21,0.10)",
+              border: "1px solid rgba(250,204,21,0.20)",
+              color: "#FACC15",
+            }}
+          >
+            <Sparkles size={12} style={{ color: "#FACC15" }} />
+            {sectionContent.eyebrow}
+          </div>
+
+          <h2
+            className="text-[clamp(1.6rem,4vw,2.8rem)] font-black leading-[1.08] tracking-[-0.03em]"
+            style={{ color: "#fff" }}
+          >
+            {sectionContent.heading}
+          </h2>
+
+          <p
+            className="mt-2 text-[14px] sm:text-[15px] leading-[1.6] max-w-xl mx-auto"
+            style={{ color: "rgba(255,255,255,0.5)" }}
+          >
+            {sectionContent.subheading}
+          </p>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {TIERS.map((t, i) => (
-            <Reveal
+            <div
               key={t.name}
-              delay={i * 100}
-              className="p-8 rounded-xl flex flex-col transition-transform duration-300 hover:-translate-y-1"
-              style={{ background: t.highlighted ? "var(--accent)" : "var(--bg)", border: t.highlighted ? "none" : "1px solid var(--border-strong)" }}
+              className="rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 transition-all duration-300"
+              style={{
+                background: "rgba(20,20,40,0.6)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "rgba(250,204,21,0.20)";
+                e.currentTarget.style.background = "rgba(20,20,40,0.8)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+              }}
             >
-              <h3 className="text-lg font-semibold mb-1" style={{ color: t.highlighted ? "#0B0D12" : "var(--text)", fontFamily: "var(--font-display)" }}>
+              {/* Icon */}
+              <div
+                className="w-12 h-12 rounded-xl mb-4 flex items-center justify-center"
+                style={{
+                  background: "rgba(250,204,21,0.08)",
+                  border: "1px solid rgba(250,204,21,0.10)",
+                }}
+              >
+                <t.icon size={22} style={{ color: "#FACC15" }} />
+              </div>
+
+              {/* Name */}
+              <h3
+                className="text-xl sm:text-2xl font-black tracking-[-0.02em]"
+                style={{ color: "#fff" }}
+              >
                 {t.name}
               </h3>
-              <div className="text-2xl font-semibold mb-4" style={{ color: t.highlighted ? "#0B0D12" : "var(--accent)", fontFamily: "var(--font-mono)" }}>
-                {t.price}
-              </div>
-              <p className="text-sm mb-6 leading-relaxed" style={{ color: t.highlighted ? "rgba(11,13,18,0.75)" : "var(--text-muted)" }}>
+
+              {/* Description */}
+              <p
+                className="text-[13px] sm:text-[14px] leading-relaxed mt-2 mb-4"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+              >
                 {t.desc}
               </p>
-              <ul className="space-y-2.5 mt-auto">
-                {t.items.map((it) => (
-                  <li key={it} className="flex items-start gap-2.5 text-sm" style={{ color: t.highlighted ? "#0B0D12" : "var(--text-muted)" }}>
-                    <Check size={14} className="mt-0.5 shrink-0" />
-                    {it}
+
+              {/* Features */}
+              <ul className="space-y-2 mb-6">
+                {t.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-2.5 text-[13px] sm:text-[14px]">
+                    <Check size={16} className="mt-0.5 shrink-0" style={{ color: "#FACC15" }} />
+                    <span style={{ color: "rgba(255,255,255,0.6)" }}>{feature}</span>
                   </li>
                 ))}
               </ul>
-            </Reveal>
+
+              {/* CTA Button - Yellow Background */}
+              <button
+                onClick={() => scrollToId("start")}
+                className="w-full group flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-[13px] font-bold transition-all duration-300 hover:scale-105"
+                style={{
+                  background: `linear-gradient(135deg, #FACC15, #EAB308)`,
+                  color: "#0a0a0f",
+                  boxShadow: `0 4px 20px rgba(250,204,21,0.20)`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 0 30px rgba(250,204,21,0.35)`;
+                  e.currentTarget.style.transform = "scale(1.03)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = `0 4px 20px rgba(250,204,21,0.20)`;
+                  e.currentTarget.style.transform = "scale(1)";
+                }}
+              >
+                {sectionContent.cta}
+                <ArrowRight 
+                  size={14} 
+                  strokeWidth={2.5}
+                  className="group-hover:translate-x-1 transition-transform duration-300" 
+                />
+              </button>
+            </div>
           ))}
         </div>
       </div>

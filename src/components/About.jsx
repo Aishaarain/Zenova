@@ -1,20 +1,23 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 
-// Edit this array — the second entry is a placeholder for your co-founder.
+// Founder data - Mixed Skills (Both have everything)
 const FOUNDERS = [
   {
     name: "Anamta Batool",
-    title: "Founder",
-    role: "Complementary skillset",
-    desc: "Add your partner's focus here — design, growth, backend, or whatever rounds out the studio. This block is a placeholder to fill in.",
+    title: "Founder & Lead Developer",
+    role: "Full Stack & AI Development",
+    desc: "Building web applications with React, Node.js, and MongoDB while also working with AI, Python, and modern APIs. Passionate about writing clean code and creating seamless user experiences that people love to use.",
+    skills: ["React/Next.js", "Node.js", "Python/AI", "MongoDB", "UI/UX Design"],
   },
   {
     name: "Aisha Arain",
-    title: "CO-Founder",
-    role: "Full-stack & AI integration",
-    desc: "Owns the Full stack end to end — architecture, auth, deployment — And Integrate the AI Features",
+    title: "Co-Founder & AI Engineer",
+    role: "AI & Full Stack Development",
+    desc: "Working with AI, Python, and modern APIs while also building full-stack applications with React, Node.js, and PostgreSQL. Focused on solving real business problems through automation and data-driven solutions.",
+    skills: ["Python/AI", "RAG Systems", "React/Next.js", "PostgreSQL", "API Development"],
   },
 ];
 
@@ -29,43 +32,141 @@ function getInitials(name) {
 }
 
 export default function About() {
-  return (
-    <section id="team" className="px-6 md:px-10 py-28 md:py-36" style={{ background: "var(--bg-alt)" }}>
-      <div className="max-w-7xl mx-auto">
-        <Reveal>
-          <Eyebrow>About</Eyebrow>
-          <h2 className="text-4xl md:text-6xl font-semibold max-w-2xl" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-            Two people, one studio
-          </h2>
-        </Reveal>
+  // Simple Content
+  const sectionContent = {
+    eyebrow: "Meet the Team",
+    heading: "The Minds Behind ZenovaLab",
+    subheading: "Creating digital products that solve real problems",
+  };
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+  return (
+    <section 
+      id="team" 
+      aria-label="ZenovaLab team - Meet our founders"
+      className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-10"
+      style={{ 
+        background: "linear-gradient(180deg, #0a0a1a 0%, #0d0d2b 40%, #0a0a1a 100%)" 
+      }}
+    >
+      {/* Simple Background Effect */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-15"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 50%, rgba(250,204,21,0.04), transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(250,204,21,0.03), transparent 50%)
+          `,
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto">
+        {/* Header - Simple */}
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 md:mb-14">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase mb-3 sm:mb-4"
+            style={{
+              background: "rgba(250,204,21,0.10)",
+              border: "1px solid rgba(250,204,21,0.20)",
+              color: "#FACC15",
+            }}
+          >
+            <Sparkles size={12} style={{ color: "#FACC15" }} />
+            {sectionContent.eyebrow}
+          </div>
+
+          <h2
+            className="text-[clamp(1.8rem,4vw,3rem)] font-black leading-[1.08] tracking-[-0.03em]"
+            style={{ color: "#fff" }}
+          >
+            {sectionContent.heading.split(" ").map((word, i) => {
+              if (word === "ZenovaLab") {
+                return (
+                  <span key={i} style={{ color: "#FACC15" }}>
+                    {word}{" "}
+                  </span>
+                );
+              }
+              return <span key={i}>{word} </span>;
+            })}
+          </h2>
+
+          <p
+            className="mt-3 text-[14px] sm:text-[15px] leading-[1.6] max-w-xl mx-auto"
+            style={{ color: "rgba(255,255,255,0.5)" }}
+          >
+            {sectionContent.subheading}
+          </p>
+        </div>
+
+        {/* Team Cards - Permanent Border */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           {FOUNDERS.map((f, i) => (
-            <Reveal
+            <div
               key={f.name}
-              delay={i * 120}
-              className="p-8 md:p-10 rounded-2xl transition-transform duration-300 hover:-translate-y-1"
-              style={{ background: "var(--bg)", border: "1px solid var(--border)" }}
+              className="rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8"
+              style={{
+                background: "rgba(20,20,40,0.6)",
+                border: "1px solid rgba(250,204,21,0.20)",
+              }}
             >
+              {/* Avatar - Gold Theme */}
               <div
-  className="w-12 h-12 rounded-full mb-6 flex items-center justify-center text-sm font-semibold"
-  style={{ background: "var(--accent)", color: "#0B0D12", fontFamily: "var(--font-mono)" }}
->
-  {getInitials(f.name)}
-</div>
-              <h3 className="text-xl font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
+                className="w-14 h-14 rounded-full mb-4 flex items-center justify-center text-lg font-black"
+                style={{
+                  background: "rgba(250,204,21,0.12)",
+                  border: "1px solid rgba(250,204,21,0.20)",
+                  color: "#FACC15",
+                }}
+              >
+                {getInitials(f.name)}
+              </div>
+
+              {/* Name & Title */}
+              <h3
+                className="text-xl sm:text-2xl font-black tracking-[-0.02em]"
+                style={{ color: "#fff" }}
+              >
                 {f.name}
               </h3>
-              <div className="text-xs uppercase tracking-[0.1em] mt-1 mb-2" style={{ color: "var(--text-faint)" }}>
+              <div
+                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] mt-1 mb-2"
+                style={{ color: "rgba(255,255,255,0.3)" }}
+              >
                 {f.title}
               </div>
-              <div className="text-sm mb-4" style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>
+              <div
+                className="text-[12px] sm:text-[13px] font-semibold mb-3"
+                style={{ color: "#FACC15" }}
+              >
                 {f.role}
               </div>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+
+              {/* Description - Mixed Skills */}
+              <p
+                className="text-[13px] sm:text-[14px] leading-relaxed mb-4"
+                style={{ color: "rgba(255,255,255,0.6)" }}
+              >
                 {f.desc}
               </p>
-            </Reveal>
+
+              {/* Skills Tags - Gold Theme */}
+              <div className="flex flex-wrap gap-1.5">
+                {f.skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="text-[8px] sm:text-[9px] font-semibold px-2.5 py-1 rounded-md"
+                    style={{
+                      background: "rgba(250,204,21,0.06)",
+                      border: "1px solid rgba(250,204,21,0.10)",
+                      color: "rgba(255,255,255,0.6)",
+                    }}
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
