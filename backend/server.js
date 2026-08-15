@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174'],
+  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'https://zenovalab.it.com'],
   credentials: true
 }));
 app.use(express.json());
@@ -20,6 +20,15 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+});
+
+// Verify transporter connection
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('Email transporter error:', error);
+  } else {
+    console.log('Email transporter is ready!');
+  }
 });
 
 // Root route
@@ -42,6 +51,8 @@ app.get('/api/test', (req, res) => {
 app.post('/api/contact', async (req, res) => {
   const { name, email, company, projectType, budget, message } = req.body;
 
+  console.log('Received contact form:', { name, email, projectType });
+
   // Validation
   if (!name || !email || !message) {
     return res.status(400).json({ 
@@ -52,12 +63,12 @@ app.post('/api/contact', async (req, res) => {
 
   try {
     // ============================================
-    // EMAIL 1: To YOU (hello.zenova.co@gmail.com)
+    // EMAIL 1: To YOU (admin)
     // ============================================
     const adminMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: 'hello.zenova.co@gmail.com',
-      subject: `New Contact Form Submission from ${name}`,
+      from: `"Zenova Lab" <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_EMAIL || 'hello.zenova.co@gmail.com',
+      subject: `New Project Inquiry from ${name}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -76,36 +87,36 @@ app.post('/api/contact', async (req, res) => {
         <body>
           <div class="container">
             <div class="header">
-              <h2 style="margin: 0; color: #0a0a1a;">🔔 New Project Inquiry</h2>
+              <h2 style="margin: 0; color: #0a0a1a;">New Project Inquiry</h2>
             </div>
             <div class="content">
               <div class="field">
-                <div class="label">👤 Name:</div>
+                <div class="label">Name:</div>
                 <div class="value"><strong>${name}</strong></div>
               </div>
               <div class="field">
-                <div class="label">📧 Email:</div>
+                <div class="label">Email:</div>
                 <div class="value"><a href="mailto:${email}">${email}</a></div>
               </div>
               ${company ? `
                 <div class="field">
-                  <div class="label">🏢 Company:</div>
+                  <div class="label">Company:</div>
                   <div class="value">${company}</div>
                 </div>
               ` : ''}
               <div class="field">
-                <div class="label">📋 Project Type:</div>
-                <div class="value">${projectType}</div>
+                <div class="label">Project Type:</div>
+                <div class="value">${projectType || 'Not specified'}</div>
               </div>
               ${budget ? `
                 <div class="field">
-                  <div class="label">💰 Budget Range:</div>
+                  <div class="label">Budget Range:</div>
                   <div class="value">${budget}</div>
                 </div>
               ` : ''}
               <div class="divider"></div>
               <div class="field">
-                <div class="label">💬 Message:</div>
+                <div class="label">Message:</div>
                 <div class="value" style="background: #f0f0f0; padding: 15px; border-radius: 6px; margin-top: 5px;">
                   ${message}
                 </div>
@@ -125,9 +136,9 @@ app.post('/api/contact', async (req, res) => {
     // EMAIL 2: AUTO-REPLY TO THE USER
     // ============================================
     const userMailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email, // Send to the person who filled the form
-      subject: `Thank you for contacting Zenova Lab, ${name}!`,
+      from: `"Zenova Lab" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `✨ Thank you for contacting Zenova Lab, ${name}!`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -160,9 +171,9 @@ app.post('/api/contact', async (req, res) => {
               
               <p><strong>What happens next?</strong></p>
               <ul style="color: #555;">
-                <li>✅ We'll review your project details</li>
-                <li>✅ Someone from our team will reach out within <strong>24 hours</strong></li>
-                <li>✅ We'll discuss your requirements in more detail</li>
+                <li> We'll review your project details</li>
+                <li>Someone from our team will reach out within <strong>24 hours</strong></li>
+                <li>We'll discuss your requirements in more detail</li>
               </ul>
               
               <p style="margin-top: 20px;">
@@ -198,6 +209,8 @@ app.post('/api/contact', async (req, res) => {
       transporter.sendMail(userMailOptions)
     ]);
 
+    console.log('Emails sent successfully to:', email, 'and admin');
+
     res.status(200).json({ 
       success: true, 
       message: 'Emails sent successfully! Both admin and user notified.' 
@@ -213,5 +226,6 @@ app.post('/api/contact', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Email configured for: ${process.env.EMAIL_USER}`);
 });
