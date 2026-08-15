@@ -56,7 +56,7 @@ const steps = [
 
 export default function HowWeWork() {
   const sectionContent = {
-    badge: "⚡ Fast Track Development",
+    badge: "Fast Track Development",
     heading: "From Idea to Live Product in 4–6 Weeks",
     description: "No 50-page proposals. No 3-month delays. Our proven 5-step development process is built for founders who want to move fast, ship faster, and start generating revenue.",
     cta: "Start Your Project",
@@ -118,7 +118,7 @@ export default function HowWeWork() {
           >
             <Zap size={12} className="sm:w-[13px] sm:h-[13px] md:w-[14px] md:h-[14px]" style={{ color: Y[400] }} />
             {sectionContent.badge}
-            <Sparkles size={10} className="sm:w-[11px] sm:h-[11px] md:w-[12px] md:h-[12px]" style={{ color: Y[400] }} />
+           
           </div>
 
           {/* Heading */}
