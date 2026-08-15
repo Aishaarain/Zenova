@@ -3,7 +3,7 @@ import { scrollToId } from "../utils/scrollTo";
 import logo from "../assets/logo.webp";
 
 const navLinks = [
-  { id: "how-we-work", label: "How We Work" },
+  { id: "how", label: "How We Work" },
   { id: "build", label: "Build" },
   { id: "team", label: "Team" },
   { id: "pricing", label: "Pricing" },
