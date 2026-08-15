@@ -85,7 +85,7 @@ export default function Build() {
                 color: Y[400],
               }}
             >
-              <Sparkles size={10} style={{ color: Y[400] }} />
+             
               {sectionContent.badge}
             </span>
 
