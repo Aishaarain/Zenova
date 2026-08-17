@@ -6,11 +6,25 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
+// CORS configuration - Allow all your domains
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'https://zenovalab.it.com'],
-  credentials: true
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://zenovalab.it.com',
+    'https://www.zenovalab.it.com',
+    'https://zenova-lab.vercel.app',
+    'https://zenova-lab-zeta.vercel.app',
+    'https://zenova-lab-backend.vercel.app',
+    // Allow all in development
+    ...(process.env.NODE_ENV === 'development' ? ['*'] : [])
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 // Email transporter
@@ -33,7 +47,7 @@ transporter.verify((error, success) => {
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Zenova Backend API is running!',
     endpoints: {
       test: '/api/test',
@@ -55,9 +69,9 @@ app.post('/api/contact', async (req, res) => {
 
   // Validation
   if (!name || !email || !message) {
-    return res.status(400).json({ 
-      success: false, 
-      error: 'Name, email, and message are required' 
+    return res.status(400).json({
+      success: false,
+      error: 'Name, email, and message are required'
     });
   }
 
@@ -100,21 +114,27 @@ app.post('/api/contact', async (req, res) => {
     ]);
 
     console.log('Emails sent successfully to:', email);
-    res.status(200).json({ 
-      success: true, 
-      message: 'Message sent successfully!' 
+    res.status(200).json({
+      success: true,
+      message: 'Message sent successfully!'
     });
 
   } catch (error) {
     console.error('Email error:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: 'Failed to send email. Please try again.' 
+    res.status(500).json({
+      success: false,
+      error: 'Failed to send email. Please try again.'
     });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Email configured for: ${process.env.EMAIL_USER}`);
-});
+// Export for Vercel
+module.exports = app;
+
+// Only listen if not on Vercel
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(`Email configured for: ${process.env.EMAIL_USER}`);
+  });
+}
