@@ -4,9 +4,8 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
 
-// CORS configuration - Allow all your domains
+// CORS configuration
 app.use(cors({
   origin: [
     'http://localhost:3000',
@@ -16,9 +15,7 @@ app.use(cors({
     'https://www.zenovalab.it.com',
     'https://zenova-lab.vercel.app',
     'https://zenova-lab-zeta.vercel.app',
-    'https://zenova-lab-backend.vercel.app',
-    // Allow all in development
-    ...(process.env.NODE_ENV === 'development' ? ['*'] : [])
+    'https://zenova-lab-backend.vercel.app'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -61,7 +58,7 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend is working!' });
 });
 
-// Contact endpoint - Sends TWO emails
+// Contact endpoint
 app.post('/api/contact', async (req, res) => {
   const { name, email, company, projectType, budget, message } = req.body;
 
@@ -128,11 +125,12 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// Export for Vercel
+// Export for Vercel - THIS IS IMPORTANT
 module.exports = app;
 
-// Only listen if not on Vercel
+// Only listen if running locally (not on Vercel)
 if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
     console.log(`Email configured for: ${process.env.EMAIL_USER}`);
