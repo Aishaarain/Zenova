@@ -5,8 +5,13 @@ import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 
 // Backend API URL
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/contact';
-const CONTACT_EMAIL = "hello.zenova.co@gmail.com";
+// The API URL should use environment variable
+const API_URL = import.meta.env.VITE_API_URL || 
+  (import.meta.env.PROD 
+    ? 'https://zenova-lab-backend.vercel.app/api/contact'  // Production fallback
+    : 'http://localhost:5000/api/contact'  // Development
+  );
+  const CONTACT_EMAIL = "hello.zenova.co@gmail.com";
 
 export default function Contact() {
   const [form, setForm] = useState({ 
