@@ -1,21 +1,22 @@
 import React, { useCallback, useState } from "react";
-import { Mail, Linkedin, Github, Check, Copy, ArrowRight, AlertCircle } from "lucide-react";
+import { Mail, Linkedin, Github, Check, Copy, ArrowRight, AlertCircle, Sparkles, Send } from "lucide-react";
+import { scrollToId } from "../utils/scrollTo";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
-import CTAButton from "./ui/CTAButton";
 
-// Shown only in the "email us directly" fallback text.
-const CONTACT_EMAIL = "hello.zanova.co@gmail.com";
-
-// --- Web3Forms config ---
-// 1. Go to https://web3forms.com/ and enter your email — no account needed.
-// 2. You'll get an Access Key by email. Paste it below.
-// 3. Submissions get emailed to the address you registered with.
-const WEB3FORMS_ACCESS_KEY = "a7e57dc6-e01e-4578-a45b-11d82d8dbf84";
+// Backend API URL
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/contact';
+const CONTACT_EMAIL = "hello.zenova.co@gmail.com";
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", projectType: "Web application", budget: "Under $1,500", message: "" });
-  const [botcheck, setBotcheck] = useState(""); // honeypot — real users never fill this in
+  const [form, setForm] = useState({ 
+    name: "", 
+    email: "", 
+    company: "", 
+    projectType: "Web application", 
+    budget: "Under $1,500", 
+    message: "" 
+  });
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | sending | error
   const [copied, setCopied] = useState(false);
@@ -23,30 +24,29 @@ export default function Contact() {
   const update = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleSubmit = useCallback(async () => {
-    if (!form.name || !form.email || !form.message) return;
-
-    // Honeypot tripped — silently pretend success and stop, don't hit the API.
-    if (botcheck) {
-      setSubmitted(true);
+    // Validation
+    if (!form.name || !form.email || !form.message) {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
       return;
     }
 
     setStatus("sending");
 
     try {
-      const res = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch(API_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({
-          access_key: WEB3FORMS_ACCESS_KEY,
-          subject: `New project inquiry from ${form.name}`,
           name: form.name,
           email: form.email,
-          company: form.company,
+          company: form.company || "Not specified",
           projectType: form.projectType,
           budget: form.budget,
           message: form.message,
-          botcheck: botcheck,
         }),
       });
 
@@ -55,13 +55,24 @@ export default function Contact() {
       if (res.ok && data.success) {
         setStatus("idle");
         setSubmitted(true);
+        setForm({ 
+          name: "", 
+          email: "", 
+          company: "", 
+          projectType: "Web application", 
+          budget: "Under $1,500", 
+          message: "" 
+        });
       } else {
         setStatus("error");
+        setTimeout(() => setStatus("idle"), 3000);
       }
-    } catch {
+    } catch (error) {
+      console.error("Form submission error:", error);
       setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
     }
-  }, [form, botcheck]);
+  }, [form]);
 
   const copyEmail = () => {
     navigator.clipboard?.writeText(CONTACT_EMAIL);
@@ -69,116 +80,326 @@ export default function Contact() {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  const inputStyle = { background: "var(--bg)", border: "1px solid var(--border-strong)", color: "var(--text)", fontFamily: "var(--font-body)" };
-  const fieldClass = "w-full rounded-lg px-4 py-3 text-sm outline-none transition-colors duration-200 focus:border-[var(--accent)] placeholder:text-[var(--text-faint)]";
+  const inputStyle = { 
+    background: "rgba(20,20,40,0.4)", 
+    border: "1px solid rgba(255,255,255,0.06)", 
+    color: "#fff", 
+    fontFamily: "var(--font-body)",
+    transition: "all 0.3s ease",
+  };
+  
+  const fieldClass = "w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-[#FACC15] placeholder:text-[rgba(255,255,255,0.3)]";
 
   return (
-    <section id="start" className="px-6 md:px-10 py-28 md:py-36">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
-        <Reveal className="md:col-span-5">
-          <Eyebrow>Get in touch</Eyebrow>
-          <h2 className="text-4xl md:text-5xl font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
+    <section 
+      id="start" 
+      aria-label="Contact ZenovaLab - Start your project"
+      className="relative py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-10 overflow-hidden"
+      style={{ 
+        background: "linear-gradient(180deg, #0f0f12 0%, #141418 40%, #0f0f12 100%)" 
+      }}
+    >
+      {/* Background Effects */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle at 20% 50%, rgba(250,204,21,0.04), transparent 50%),
+            radial-gradient(circle at 80% 50%, rgba(250,204,21,0.03), transparent 50%)
+          `,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[-10%] left-1/2 -translate-x-1/2 w-[400px] h-[300px] rounded-full opacity-15"
+        style={{
+          background: `radial-gradient(circle, rgba(250,204,21,0.06), transparent 70%)`,
+          filter: "blur(60px)",
+        }}
+      />
+
+      <div className="relative max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        {/* Left Content */}
+        <div className="lg:col-span-5">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] sm:text-[11px] font-bold tracking-[0.2em] uppercase mb-4"
+            style={{
+              background: "rgba(250,204,21,0.10)",
+              border: "1px solid rgba(250,204,21,0.20)",
+              color: "#FACC15",
+            }}
+          >
+            <Sparkles size={12} style={{ color: "#FACC15" }} />
+            Get in touch
+          </div>
+
+          <h2
+            className="text-[clamp(1.8rem,4vw,3rem)] font-black leading-[1.08] tracking-[-0.03em]"
+            style={{ color: "#fff" }}
+          >
             Tell us what you're building
           </h2>
-          <p className="mt-6 text-sm md:text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+
+          <p
+            className="mt-3 text-[14px] sm:text-[15px] leading-[1.6] max-w-md"
+            style={{ color: "rgba(255,255,255,0.5)" }}
+          >
             Fill in the form and we'll reply within a day.
           </p>
+        </div>
 
-          <div className="mt-10 text-xs px-4 py-3 rounded-lg inline-block" style={{ border: "1px solid var(--border)", color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>
-            Async-first · overlapping UK/US hours · &lt;24h response
-          </div>
-        </Reveal>
-
-        <Reveal delay={100} className="md:col-span-7">
+        {/* Right Form */}
+        <div className="lg:col-span-7">
           {submitted ? (
-            <div className="p-10 rounded-xl flex flex-col items-start gap-4" style={{ border: "1px solid var(--border-strong)", background: "var(--bg-alt)" }}>
-              <span className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: "var(--accent)" }}>
-                <Check size={20} color="#0B0D12" />
-              </span>
-              <h3 className="text-xl font-semibold" style={{ color: "var(--text)", fontFamily: "var(--font-display)" }}>
-                Message sent
+            <div 
+              className="rounded-xl sm:rounded-2xl p-8 sm:p-10 flex flex-col items-start gap-4"
+              style={{ 
+                border: "1px solid rgba(255,255,255,0.06)", 
+                background: "rgba(20,20,40,0.4)",
+              }}
+            >
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center"
+                style={{ 
+                  background: "rgba(250,204,21,0.12)",
+                  border: "1px solid rgba(250,204,21,0.20)",
+                }}
+              >
+                <Check size={24} style={{ color: "#FACC15" }} />
+              </div>
+              <h3
+                className="text-2xl font-black"
+                style={{ color: "#fff" }}
+              >
+                Message sent! 
               </h3>
-              <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-                Thanks for reaching out — we'll get back to you within a day. If you don't hear from us, email{" "}
-                <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono)" }}>{CONTACT_EMAIL}</span> directly.
+              <p
+                className="text-[14px]"
+                style={{ color: "rgba(255,255,255,0.5)" }}
+              >
+                Thanks for reaching out we'll get back to you within a day.
               </p>
-              <button onClick={() => setSubmitted(false)} className="text-sm underline" style={{ color: "var(--text-muted)" }}>
-                Send another message
+              <button 
+                onClick={() => setSubmitted(false)} 
+                className="text-[13px] font-semibold transition-all duration-300 hover:scale-105"
+                style={{ color: "#FACC15" }}
+              >
+                Send another message →
               </button>
             </div>
           ) : (
-            <div className="space-y-5">
+            <div className="space-y-4">
               {status === "error" && (
-                <div className="flex items-center gap-2 text-sm px-4 py-3 rounded-lg" style={{ border: "1px solid #ef444455", background: "#ef444411", color: "#ef4444" }}>
+                <div 
+                  className="flex items-center gap-2 text-sm px-4 py-3 rounded-xl"
+                  style={{ 
+                    border: "1px solid rgba(239,68,68,0.3)", 
+                    background: "rgba(239,68,68,0.08)", 
+                    color: "#ef4444" 
+                  }}
+                >
                   <AlertCircle size={15} />
-                  Something went wrong sending your message. Please try again or email us directly.
+                  Something went wrong. Please try again or email us directly.
                 </div>
               )}
 
-              {/* Honeypot — hidden from real users via CSS, bots tend to fill every field they find */}
-              <input
-                type="text"
-                name="botcheck"
-                value={botcheck}
-                onChange={(e) => setBotcheck(e.target.value)}
-                tabIndex={-1}
-                autoComplete="off"
-                style={{ position: "absolute", left: "-9999px", width: "1px", height: "1px", opacity: 0 }}
-                aria-hidden="true"
-              />
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Name *</label>
-                  <input className={fieldClass} style={inputStyle} value={form.name} onChange={update("name")} placeholder="Your name" />
+                  <label 
+                    className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                    style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                  >
+                    Name *
+                  </label>
+                  <input 
+                    className={fieldClass} 
+                    style={inputStyle} 
+                    value={form.name} 
+                    onChange={update("name")} 
+                    placeholder="Your name"
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = "#FACC15";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                    }}
+                  />
                 </div>
                 <div>
-                  <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Email *</label>
-                  <input type="email" className={fieldClass} style={inputStyle} value={form.email} onChange={update("email")} placeholder="you@company.com" />
+                  <label 
+                    className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                    style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                  >
+                    Email *
+                  </label>
+                  <input 
+                    type="email" 
+                    className={fieldClass} 
+                    style={inputStyle} 
+                    value={form.email} 
+                    onChange={update("email")} 
+                    placeholder="you@company.com"
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = "#FACC15";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                    }}
+                  />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Company</label>
-                <input className={fieldClass} style={inputStyle} value={form.company} onChange={update("company")} placeholder="Optional" />
+                <label 
+                  className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                  style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                >
+                  Company
+                </label>
+                <input 
+                  className={fieldClass} 
+                  style={inputStyle} 
+                  value={form.company} 
+                  onChange={update("company")} 
+                  placeholder="Optional"
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "#FACC15";
+                    e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                    e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                  }}
+                />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Project type</label>
-                  <select className={fieldClass} style={inputStyle} value={form.projectType} onChange={update("projectType")}>
-                    <option>Web application</option>
-                    <option>AI integration</option>
-                    <option>Internal tool / dashboard</option>
-                    <option>Not sure yet</option>
+                  <label 
+                    className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                    style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                  >
+                    Project type
+                  </label>
+                  <select 
+                    className={fieldClass} 
+                    style={inputStyle} 
+                    value={form.projectType} 
+                    onChange={update("projectType")}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = "#FACC15";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                    }}
+                  >
+                    <option style={{ background: "#141418" }}>Web application</option>
+                    <option style={{ background: "#141418" }}>AI integration</option>
+                    <option style={{ background: "#141418" }}>Internal tool / dashboard</option>
+                    <option style={{ background: "#141418" }}>Not sure yet</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>Budget</label>
-                  <select className={fieldClass} style={inputStyle} value={form.budget} onChange={update("budget")}>
-                    <option>Under $500</option>
-                    <option>$200 – $500</option>
-                    <option>$500 – $800</option>
-                    <option>$1000+</option>
+                  <label 
+                    className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                    style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                  >
+                    Budget
+                  </label>
+                  <select 
+                    className={fieldClass} 
+                    style={inputStyle} 
+                    value={form.budget} 
+                    onChange={update("budget")}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = "#FACC15";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                      e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                    }}
+                  >
+                    <option style={{ background: "#141418" }}>Under $500</option>
+                    <option style={{ background: "#141418" }}>$200 – $500</option>
+                    <option style={{ background: "#141418" }}>$500 – $800</option>
+                    <option style={{ background: "#141418" }}>$1000+</option>
                   </select>
                 </div>
               </div>
 
               <div>
-                <label className="text-xs mb-2 block" style={{ color: "var(--text-faint)", fontFamily: "var(--font-mono)" }}>What are you building? *</label>
-                <textarea rows={5} className={fieldClass} style={inputStyle} value={form.message} onChange={update("message")} placeholder="Tell us about the project, timeline, and goals." />
+                <label 
+                  className="text-[11px] font-bold uppercase tracking-wider block mb-1.5"
+                  style={{ color: "rgba(255,255,255,0.3)", fontFamily: "var(--font-mono)" }}
+                >
+                  What are you building? *
+                </label>
+                <textarea 
+                  rows={4} 
+                  className={fieldClass} 
+                  style={inputStyle} 
+                  value={form.message} 
+                  onChange={update("message")} 
+                  placeholder="Tell us about the project, timeline, and goals."
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "#FACC15";
+                    e.currentTarget.style.background = "rgba(20,20,40,0.6)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                    e.currentTarget.style.background = "rgba(20,20,40,0.4)";
+                  }}
+                />
               </div>
 
-              <CTAButton onClick={handleSubmit} disabled={status === "sending"} className="w-full sm:w-auto">
-                {status === "sending" ? "Sending…" : (
+              <button
+                onClick={handleSubmit}
+                disabled={status === "sending"}
+                className="group w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl text-[14px] font-black transition-all duration-300 hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed"
+                style={{
+                  background: status === "sending" 
+                    ? "rgba(255,255,255,0.1)" 
+                    : `linear-gradient(135deg, #FACC15, #EAB308)`,
+                  color: status === "sending" ? "rgba(255,255,255,0.5)" : "#0a0a0f",
+                  boxShadow: status === "sending" ? "none" : `0 4px 20px rgba(250,204,21,0.20)`,
+                }}
+                onMouseEnter={(e) => {
+                  if (status !== "sending") {
+                    e.currentTarget.style.boxShadow = `0 0 30px rgba(250,204,21,0.35)`;
+                    e.currentTarget.style.transform = "scale(1.03)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (status !== "sending") {
+                    e.currentTarget.style.boxShadow = `0 4px 20px rgba(250,204,21,0.20)`;
+                    e.currentTarget.style.transform = "scale(1)";
+                  }
+                }}
+              >
+                {status === "sending" ? (
+                  "Sending…"
+                ) : (
                   <>
-                    Send message <ArrowRight size={16} />
+                    Send Message
+                    <ArrowRight 
+                      size={16} 
+                      strokeWidth={2.5}
+                      className="group-hover:translate-x-1 transition-transform duration-300" 
+                    />
                   </>
                 )}
-              </CTAButton>
+              </button>
             </div>
           )}
-        </Reveal>
+        </div>
       </div>
     </section>
   );
