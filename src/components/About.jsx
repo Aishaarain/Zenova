@@ -5,20 +5,20 @@ import Reveal from "./ui/Reveal";
 
 // Founder data - Mixed Skills (Both have everything)
 const FOUNDERS = [
-  {
-    name: "Anamta Batool",
-    title: "Founder & Lead Developer",
-    role: "Full Stack & AI Development",
-    desc: "Building web applications with React, Node.js, and MongoDB while also working with AI, Python, and modern APIs. Passionate about writing clean code and creating seamless user experiences that people love to use.",
-    skills: ["React/Next.js", "Node.js", "Python/AI", "MongoDB", "UI/UX Design"],
-  },
-  {
-    name: "Aisha Arain",
-    title: "Co-Founder & AI Engineer",
-    role: "AI & Full Stack Development",
-    desc: "Working with AI, Python, and modern APIs while also building full-stack applications with React, Node.js, and PostgreSQL. Focused on solving real business problems through automation and data-driven solutions.",
-    skills: ["Python/AI", "RAG Systems", "React/Next.js", "PostgreSQL", "API Development"],
-  },
+ {
+  name: "Anamta Batool",
+  title: "Co-Founder",
+  role: "Full Stack Development & AI Integration",
+  desc: "Builds web apps using React, Node.js, and MongoDB, and works with AI and Python to add smart features. Loves writing clean code and creating experiences that feel simple and enjoyable to use.",
+  skills: ["React/Next.js", "Node.js", "Python/AI", "MongoDB", "UI/UX Design"],
+},
+{
+  name: "Aisha Arain",
+  title: "Co-Founder",
+  role: "AI-Powered Full Stack Development",
+  desc: "Works with AI, Python, and modern APIs, and builds full-stack apps using React, Node.js, and PostgreSQL. Enjoys solving real business problems through automation and smart, data-driven tools.",
+  skills: ["Python/AI", "RAG Systems", "React/Next.js", "PostgreSQL", "API Development"],
+},
 ];
 
 function getInitials(name) {
