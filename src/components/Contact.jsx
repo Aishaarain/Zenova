@@ -4,14 +4,19 @@ import { scrollToId } from "../utils/scrollTo";
 import Eyebrow from "./ui/Eyebrow";
 import Reveal from "./ui/Reveal";
 
-// Backend API URL
-// The API URL should use environment variable
-const API_URL = import.meta.env.VITE_API_URL || 
-  (import.meta.env.PROD 
-    ? 'https://zenova-lab-backend.vercel.app/api/contact'  // Production fallback
-    : 'http://localhost:5000/api/contact'  // Development
-  );
-  const CONTACT_EMAIL = "hello.zenova.co@gmail.com";
+// ============================================
+// ✅ USING ENVIRONMENT VARIABLES
+// ============================================
+// .env (Production) -> VITE_API_URL=https://zenova-lab-backend.vercel.app/api/contact
+// .env.local (Development) -> VITE_API_URL=http://localhost:5000/api/contact
+// ============================================
+
+const API_URL = import.meta.env.VITE_API_URL;
+const CONTACT_EMAIL = "hello.zenova.co@gmail.com";
+
+// Debug log to check which URL is being used
+console.log("🌐 API_URL:", API_URL);
+console.log("🔧 Environment:", import.meta.env.MODE);
 
 export default function Contact() {
   const [form, setForm] = useState({ 
@@ -39,6 +44,9 @@ export default function Contact() {
     setStatus("sending");
 
     try {
+      console.log("📤 Sending to:", API_URL);
+      console.log("📦 Form data:", form);
+
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { 
@@ -56,6 +64,7 @@ export default function Contact() {
       });
 
       const data = await res.json();
+      console.log("📥 Response:", data);
 
       if (res.ok && data.success) {
         setStatus("idle");
@@ -69,11 +78,12 @@ export default function Contact() {
           message: "" 
         });
       } else {
+        console.error("❌ Server error:", data);
         setStatus("error");
         setTimeout(() => setStatus("idle"), 3000);
       }
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error("❌ Form submission error:", error);
       setStatus("error");
       setTimeout(() => setStatus("idle"), 3000);
     }
@@ -152,6 +162,18 @@ export default function Contact() {
           >
             Fill in the form and we'll reply within a day.
           </p>
+
+          {/* Show API URL for debugging (only in development) */}
+          {import.meta.env.DEV && (
+            <div className="mt-4 p-3 rounded-lg" style={{ background: "rgba(255,255,255,0.05)" }}>
+              <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
+                📡 API: <span style={{ color: "#FACC15" }}>{API_URL}</span>
+              </p>
+              <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.3)" }}>
+                Mode: {import.meta.env.MODE}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Right Form */}
